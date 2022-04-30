@@ -6,7 +6,43 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '*',
+    name: '404',
+    meta: {
+      title: '404'
+    },
+    component: () => import('@/views/404')
+  },
+  {
     path: '/',
+    redirect: { name: 'Login' }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    meta: {
+      title: '登入'
+    },
+    component: () => import('@/views/Login')
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    meta: {
+      title: '首頁'
+    },
+    component: () => import('@/views/Dashboard')
+  },
+  {
+    path: '/procurement/addTender',
+    name: 'AddTender',
+    meta: {
+      title: '新增招標'
+    },
+    component: () => import('@/views/Procurement/AddTender')
+  },
+  {
+    path: '/home',
     name: 'home',
     component: HomeView
   },
