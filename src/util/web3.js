@@ -1,3 +1,7 @@
+// 記錄
+import Web3 from 'web3'
+const web3 = new Web3(window.web3.currentProvider)
+
 // web3.js
 // 智能合约地址
 const contractAddress = '.....'
@@ -29,8 +33,8 @@ function Init (callback) {
       }).then(function (accounts) {
         // 如果用户同意了登录请求，你就可以拿到用户的账号
         const currentProvider = web3.currentProvider
-        const Web3 = web3js.getWeb3()
-        web3 = new Web3()
+        // const Web3 = web3js.getWeb3()
+        // web3 = new Web3()
         web3.setProvider(currentProvider)
         contract = new web3.eth.Contract(contractABI, contractAddress)
         // console.log('地址列表', accounts)
@@ -41,6 +45,5 @@ function Init (callback) {
 }
 // 导出相应的方法
 export default {
-
-  init
+  Init
 }

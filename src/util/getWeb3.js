@@ -1,3 +1,4 @@
+// 記錄
 import Web3 from 'web3'
 
 const getWeb3 = new Promise(function (resolve, reject) {
