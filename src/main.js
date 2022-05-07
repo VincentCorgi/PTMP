@@ -1,8 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
-import store from './store'
 import Web3 from 'web3'
+import Vuex from 'vuex'
+import store from './store'
+import router from './router'
+import BootstrapVue from 'bootstrap-vue'
+
+Vue.use(Vuex)
+Vue.use(BootstrapVue)
 Vue.prototype.Web3 = Web3
 Vue.config.productionTip = false
 
