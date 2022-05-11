@@ -72,12 +72,42 @@ const ethContract = web3.eth.contract(contractABI).at(contractAddress)
 
 // 2. 寫法二
 // new is for web3@^1.0
-const myContract = web3.eth.contract(contractABI, contractAddress, {
-  from: fromAddress
-})
+// const myContract = new web3.eth.Contract(contractABI, contractAddress, {
+//   from: fromAddress
+// })
 
 // 可以設定defaultAccount
 web3.eth.defaultAccount = fromAddress
+
+// 使用sendTransaction()
+// const sendData = ethContract.writeTenderName.getData('星空')
+// web3.eth.sendTransaction(
+//   {
+//     from: fromAddress,
+//     to: contractAddress,
+//     data: sendData
+//   },
+//   function (err, hash) {
+//     if (!err) {
+//       console.log(hash)
+//     }
+//   }
+// )
+
+// 使用call
+// const callData = ethContract.lookupTenderName.getData()
+// web3.eth.call(
+//   {
+//     to: contractAddress,
+//     data: callData
+//   },
+//   function (err, hash) {
+//     if (!err) {
+//       console.log(hash)
+//       console.log(Web3Utils.hexToUtf8(hash))
+//     }
+//   }
+// )
 
 /// ///////////////////////////////////////////////////////////////////////////
 // 以下要 web3 1.0.0 以上 能的話請用1.0.0以上的因為可以用官方文黨的東西 真的很方便ＱＱ
