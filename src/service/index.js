@@ -112,6 +112,32 @@ web3.eth.defaultAccount = fromAddress
 /// ///////////////////////////////////////////////////////////////////////////
 // 以下要 web3 1.0.0 以上 能的話請用1.0.0以上的因為可以用官方文黨的東西 真的很方便ＱＱ
 
+// 使用deploy  參考 https://learnblockchain.cn/docs/web3.js/web3-eth-contract.html#methods-mymethod-send
+// ethContract
+// .deploy({
+//   data: '0x62935976',
+//   arguments: ['aaa', 'bbb']
+// })
+// .send(
+//   {
+//     from: fromAddress
+//   },
+//   function (err, transactionHash) {
+//     if (!err) {
+//       console.log(transactionHash)
+//     }
+//   }
+// )
+// .on('error', function(error) { ... })
+// .on('transactionHash', function(transactionHash){ ... })
+// .on('receipt', function(receipt){
+//    console.log(receipt.contractAddress) // 包含新合约地址
+// })
+// .on('confirmation', function(confirmationNumber, receipt){ ... })
+// .then(function(newContractInstance){
+//     console.log(newContractInstance.options.address) // 带有新合约地址的合约实例
+// })
+
 /// 也直接調用abi方式
 // https://learnblockchain.cn/docs/web3.js/web3-eth-abi.html
 
