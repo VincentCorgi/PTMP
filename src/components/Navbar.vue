@@ -1,5 +1,6 @@
 <template>
   <div class="navbar">
+    ip: 163.13.138.226
     <span style="color: white">Navbar</span>
     <div v-show="$route.name === 'Dashboard'">
       <button @click="addTender">新增招標</button>
