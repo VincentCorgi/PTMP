@@ -1,12 +1,12 @@
 <template>
   <div>Dashboard
-  <p>bbbbb</p>
-  <p>bbbbb</p>
-  <p>bbbbb</p>
-  <p>bbbbb</p>
-  <p>bbbbb</p>
-  <p>bbbbb</p>
-  <p>bbbbb</p>
+  <p>ccccc</p>
+  <p>ccccc</p>
+  <p>ccccc</p>
+  <p>ccccc</p>
+  <p>ccccc</p>
+  <p>ccccc</p>
+  <p>ccccc</p>
 
   </div>
 </template>
