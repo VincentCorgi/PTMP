@@ -10,13 +10,12 @@
     <div v-show="$route.name === 'AddTender'">
       <button @click="save">確認</button>
       <button @click="back">返回</button>
-      <p>branch test</p>
+      <p>this is master</p>
     </div>
   </div>
 </template>
 
 <script>
-import { BIconWindowSidebar, LayoutPlugin } from 'bootstrap-vue'
 import Web3 from 'web3'
 import Web3Utils from 'web3-utils'
 export default {
