@@ -10,11 +10,7 @@
     <div v-show="$route.name === 'AddTender'">
       <button @click="save">確認</button>
       <button @click="back">返回</button>
-<<<<<<< HEAD
       <p>this is master</p>
-=======
-      <p>branch test</p>
->>>>>>> fee7fab3f866b156541459897c24cb748fa20928
     </div>
   </div>
 </template>
