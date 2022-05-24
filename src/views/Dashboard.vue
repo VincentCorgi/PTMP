@@ -1,6 +1,12 @@
 <template>
   <div>Dashboard
-  <p>這裡是未開發畫面</p>
+  <p>aaaaaa</p>
+  <p>aaaaaa</p>
+  <p>aaaaaa</p>
+  <p>aaaaaa</p>
+  <p>aaaaaa</p>
+  <p>aaaaaa</p>
+  <p>aaaaaa</p>
 
   </div>
 </template>
