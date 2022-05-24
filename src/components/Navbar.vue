@@ -12,7 +12,8 @@
       <button @click="save">確認</button>
       <button @click="back">返回</button>
       <p>this is master</p>
-      <p>git branch change test</p>
+      <p>git change branch</p>
+      <p>git ip 比對測試</p>
     </div>
   </div>
 </template>
