@@ -13,11 +13,12 @@
     "@riophae/vue-treeselect": "^0.4.0",
     "bootstrap-vue": "^2.22.0",
     "core-js": "^3.8.3",
+    "node-polyfill-webpack-plugin": "^1.1.4",
+    "path-browserify": "^1.0.1",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
     "vuex": "^3.6.2",
-    "web3": "^0.20.0",
-    "web3-utils": "^1.5.3"
+    "web3": "^1.7.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
