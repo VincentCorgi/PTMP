@@ -1,74 +1,74 @@
-import Web3 from 'web3' // 記得要@0.20.0 1版本
-import Web3Utils from 'web3-utils' // 記得要@1.5.3版本 //可以使用web3.utils函式庫對hex做轉換 嘿用
+// import Web3 from 'web3' // 記得要@0.20.0 1版本
+// import Web3Utils from 'web3-utils' // 記得要@1.5.3版本 //可以使用web3.utils函式庫對hex做轉換 嘿用
 
 // 建立web3
-const web3 = new Web3(window.web3.currentProvider)
+// const web3 = new Web3(window.web3.currentProvider)
 
 // 可以拿到所有metamask的地址
 // web3.eth.getAccounts(console.log)
 // 拿取當前地址
-const fromAddress = web3.eth.accounts[0]
+// const fromAddress = web3.eth.accounts[0]
 
 // 合約地址
-const contractAddress = '0xFE0da3c22a75266cC00B792d0C3A4C678d6390bb'
+// const contractAddress = '0xFE0da3c22a75266cC00B792d0C3A4C678d6390bb'
 // 合約abi
-const contractABI = [
-  {
-    inputs: [],
-    name: 'lookupTenderName',
-    outputs: [
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [],
-    name: 'retrieve',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256'
-      }
-    ],
-    stateMutability: 'view',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'num',
-        type: 'uint256'
-      }
-    ],
-    name: 'store',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  },
-  {
-    inputs: [
-      {
-        internalType: 'string',
-        name: 'str',
-        type: 'string'
-      }
-    ],
-    name: 'writeTenderName',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function'
-  }
-]
+// const contractABI = [
+//   {
+//     inputs: [],
+//     name: 'lookupTenderName',
+//     outputs: [
+//       {
+//         internalType: 'string',
+//         name: '',
+//         type: 'string'
+//       }
+//     ],
+//     stateMutability: 'view',
+//     type: 'function'
+//   },
+//   {
+//     inputs: [],
+//     name: 'retrieve',
+//     outputs: [
+//       {
+//         internalType: 'uint256',
+//         name: '',
+//         type: 'uint256'
+//       }
+//     ],
+//     stateMutability: 'view',
+//     type: 'function'
+//   },
+//   {
+//     inputs: [
+//       {
+//         internalType: 'uint256',
+//         name: 'num',
+//         type: 'uint256'
+//       }
+//     ],
+//     name: 'store',
+//     outputs: [],
+//     stateMutability: 'nonpayable',
+//     type: 'function'
+//   },
+//   {
+//     inputs: [
+//       {
+//         internalType: 'string',
+//         name: 'str',
+//         type: 'string'
+//       }
+//     ],
+//     name: 'writeTenderName',
+//     outputs: [],
+//     stateMutability: 'nonpayable',
+//     type: 'function'
+//   }
+// ]
 
 // 連接ethContract
-const ethContract = web3.eth.contract(contractABI).at(contractAddress)
+// const ethContract = web3.eth.contract(contractABI).at(contractAddress)
 
 // 2. 寫法二
 // new is for web3@^1.0
@@ -77,7 +77,7 @@ const ethContract = web3.eth.contract(contractABI).at(contractAddress)
 // })
 
 // 可以設定defaultAccount
-web3.eth.defaultAccount = fromAddress
+// web3.eth.defaultAccount = fromAddress
 
 // 使用sendTransaction()
 // const sendData = ethContract.writeTenderName.getData('星空')
@@ -109,7 +109,7 @@ web3.eth.defaultAccount = fromAddress
 //   }
 // )
 
-/// ///////////////////////////////////////////////////////////////////////////
+/// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // 以下要 web3 1.0.0 以上 能的話請用1.0.0以上的因為可以用官方文黨的東西 真的很方便ＱＱ
 
 // 使用deploy  參考 https://learnblockchain.cn/docs/web3.js/web3-eth-contract.html#methods-mymethod-send
@@ -154,10 +154,10 @@ web3.eth.defaultAccount = fromAddress
 // nameContract.methods.call
 // 參考 https://learnblockchain.cn/docs/web3.js/web3-eth-contract.html
 
-export default {
-  web3,
-  Web3Utils,
-  contractAddress,
-  ethContract,
-  fromAddress
-}
+// export default {
+//   web3,
+//   Web3Utils,
+//   contractAddress,
+//   ethContract,
+//   fromAddress
+// }
