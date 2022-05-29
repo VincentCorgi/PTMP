@@ -1,7 +1,11 @@
 <template>
-  <div>
-    <button @click="signIn">登入</button>
-  </div>
+  <b-container fluid>
+    <b-row class="vh-100" align-v="center">
+      <b-col>
+        <b-button variant="success" @click="signIn">連接MetaMask錢包並登入</b-button>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -14,20 +18,13 @@ export default {
   computed: {},
   async mounted () {},
   methods: {
-    // get () {
-    //   // web3前面必須有window
-    //   const Web3 = require('@/util/getWeb3')
-    //   Web3.default.getWeb3().then((res) => {
-    //     window.web3 = res
-    //     console.log('getWeb3', res)
-    //   })
-    // },
-    signIn () {
+    async signIn () {
       if (window.ethereum) {
-        window.ethereum.enable().then((res) => {
-          alert('當前錢包地址：' + res[0])
-          this.$router.push({ name: 'Dashboard' })
+        const fromAddress = await window.ethereum.enable().then((res) => {
+          return res[0]
         })
+        this.$store.commit('contract/setFromAddress', fromAddress)
+        this.$router.push({ name: 'Dashboard' })
       } else {
         alert('請安裝MetaMask錢包')
       }
