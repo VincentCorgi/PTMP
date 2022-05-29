@@ -248,6 +248,10 @@ const contractABI = [
     type: 'function'
   }
 ]
+// 連接合約
 const ethContract = new web3.eth.Contract(contractABI, contractAddress)
+// 當前地址
+web3.defaultAccount = '0x904e7C77c7D5ed71A19eF218e7962CF074aB8346'
+const fromAddress = web3.defaultAccount
 
-export default ethContract
+export { ethContract, fromAddress }

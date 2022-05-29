@@ -20,10 +20,9 @@ export default {
   methods: {
     async signIn () {
       if (window.ethereum) {
-        const fromAddress = await window.ethereum.enable().then((res) => {
+        await window.ethereum.enable().then((res) => {
           return res[0]
         })
-        this.$store.commit('contract/setFromAddress', fromAddress)
         this.$router.push({ name: 'Dashboard' })
       } else {
         alert('請安裝MetaMask錢包')
