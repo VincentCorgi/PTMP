@@ -161,3 +161,93 @@
 //   ethContract,
 //   fromAddress
 // }
+import Web3 from 'web3'
+
+const web3 = new Web3(Web3.givenProvider || 'ws://http://192.168.12.220:8080')
+// 合約地址
+const contractAddress = '0x88493AFD632242304922B140E6247E44A24e19EF'
+// 合約abi
+const contractABI = [
+  {
+    inputs: [
+      {
+        internalType: 'string',
+        name: 'name',
+        type: 'string'
+      },
+      {
+        internalType: 'string',
+        name: 'subjectProcurement',
+        type: 'string'
+      }
+    ],
+    name: 'addTender',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'getCount',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address'
+      }
+    ],
+    name: 'tenderList',
+    outputs: [
+      {
+        internalType: 'string',
+        name: 'name',
+        type: 'string'
+      },
+      {
+        internalType: 'string',
+        name: 'subjectProcurement',
+        type: 'string'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  { // 在tenders拿值
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256'
+      }
+    ],
+    name: 'tenders',
+    outputs: [
+      {
+        internalType: 'string',
+        name: 'name',
+        type: 'string'
+      },
+      {
+        internalType: 'string',
+        name: 'subjectProcurement',
+        type: 'string'
+      }
+    ],
+    stateMutability: 'view',
+    type: 'function'
+  }
+]
+const ethContract = new web3.eth.Contract(contractABI, contractAddress)
+
+export default ethContract
