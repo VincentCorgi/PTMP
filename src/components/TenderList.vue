@@ -29,18 +29,28 @@
         :fields="fields"
         :items="list"
         :filter="filter"
-        sticky-header
+        :current-page="currentPage"
+        :per-page="perPage"
         striped
       >
-        <template #cell(name)="data">
+        <template #cell(name)="row">
           <router-link
             :to="{}"
-            @click.native="pushTo(data.item)"
+            @click.native="pushTo(row.item)"
           >
-            {{ data.value }}
+            {{ row.value }}
           </router-link>
         </template>
       </b-table>
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="totalRows"
+        :per-page="perPage"
+        align="center"
+        size="sm"
+        first-number
+        last-number
+      ></b-pagination>
     </b-overlay>
   </div>
 </template>
@@ -60,8 +70,15 @@ export default {
         }
       ],
       list: [],
+      currentPage: 1,
+      perPage: 10,
       filter: null,
       show: true
+    }
+  },
+  computed: {
+    totalRows () {
+      return this.list.length
     }
   },
   async mounted () {
@@ -84,6 +101,7 @@ export default {
   },
   methods: {
     pushTo (data) {
+      this.$store.commit('tender/setTender', data)
       this.$router.push({
         name: 'TenderContent'
       })
