@@ -20,8 +20,8 @@ export default {
   methods: {
     async signIn () {
       if (window.ethereum) {
-        await window.ethereum.enable().then((res) => {
-          return res[0]
+        window.ethereum.enable().then((res) => {
+          alert(res[0])
         })
         this.$router.push({ name: 'Dashboard' })
       } else {
