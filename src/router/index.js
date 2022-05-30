@@ -42,6 +42,14 @@ const routes = [
     component: () => import('@/views/Procurement/AddTender')
   },
   {
+    path: '/procurement/tenderContent',
+    name: 'TenderContent',
+    meta: {
+      title: '招標資料'
+    },
+    component: () => import('@/views/Procurement/TenderContent')
+  },
+  {
     path: '/home',
     name: 'home',
     component: HomeView
