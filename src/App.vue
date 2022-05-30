@@ -4,7 +4,7 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </nav> -->
-    <navbar v-if="$route.name !== 'Login'" />
+    <navbar v-show="$route.name !== 'Login' && $route.name !== '404' && $route.name !== 'Vincent'" />
     <router-view />
   </div>
 </template>
