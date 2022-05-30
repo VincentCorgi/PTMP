@@ -50,6 +50,14 @@ const routes = [
     component: () => import('@/views/Procurement/TenderContent')
   },
   {
+    path: '/vincent',
+    name: 'Vincent',
+    meta: {
+      title: 'Vincent'
+    },
+    component: () => import('@/views/Vincent')
+  },
+  {
     path: '/home',
     name: 'home',
     component: HomeView
