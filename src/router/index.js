@@ -38,14 +38,6 @@ const routes = [
     component: () => import('@/views/Procurement/index.vue'),
     children: [
       {
-        path: 'addTender/:id',
-        name: 'AddTender',
-        meta: {
-          title: '新增招標'
-        },
-        component: () => import('@/views/Procurement/AddTender.vue')
-      },
-      {
         path: '/procurement/tenderContent',
         name: 'TenderContent',
         meta: {
