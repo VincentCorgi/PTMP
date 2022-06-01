@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { ethContract, fromAddress } from '@/service/index.js'
+import { ethContract } from '@/service/index.js'
 import { mapMutations, mapState } from 'vuex'
 import Web3 from 'web3'
 
@@ -41,7 +41,7 @@ export default {
         .addTender('範例二', '對')
         .send(
           {
-            from: fromAddress
+            from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
           }
         )
         .then(function (receipt) {
