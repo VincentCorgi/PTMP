@@ -15,7 +15,7 @@ export default {
       publishingDate: '', // 公告日
       budgetAmount: '', // 預算金額
       biddingDeadline: '', // 截止投標
-      openingDate: '', // 公告日期
+      openingDate: '', // 開標日期
       bidders: [], // 投標資料
       status: ''
     },
