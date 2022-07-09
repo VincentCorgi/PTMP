@@ -10,7 +10,15 @@ export default {
   },
   mutations: {
     setCurrent (state, firm) {
-      state.firm = firm
+      state.current = firm
+    },
+    reset (state) {
+      state.current = {
+        name: '',
+        contact: '',
+        contactNumber: '',
+        contactAddress: ''
+      }
     }
   },
   actions: {
