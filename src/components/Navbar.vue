@@ -2,7 +2,6 @@
   <div class="navbar" >
     <div v-show="$route.name === 'Dashboard'" style="width: 100vw">
       <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
-      <!-- <b-button pill variant="outline-danger" style="float: right;" @click="logout">登出</b-button> -->
       <b-nav-item-dropdown
         right
         variant="secondary"
@@ -16,7 +15,6 @@
           登出
         </b-dropdown-item>
       </b-nav-item-dropdown>
-      <!-- <b-button @click="test()">測試鈕</b-button> -->
     </div>
     <div v-show="$route.name === 'TenderContent'" style="width: 100vw">
       <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
@@ -33,7 +31,12 @@
     </div>
     <div v-show="$route.name === 'Management'" style="width: 100vw">
       <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
-      <!-- <b-button pill variant="outline-warning" style="float: right;" @click="backToDashboard">返回</b-button> -->
+    </div>
+    <div v-show="$route.name === 'AddTender'" style="width: 100vw">
+      <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
+    </div>
+    <div v-show="$route.name === 'AwardTender'" style="width: 100vw">
+      <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
     </div>
   </div>
 </template>
@@ -72,21 +75,6 @@ export default {
       //     console.log(receipt)
       //   })
     },
-    async addTender () {
-      const init = {
-        addr: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0], // 待抓當前
-        name: '',
-        tenderMethod: '', // 招標方式
-        procurementProperty: '', // 採購性質
-        publishingDate: '', // 公告日
-        budgetAmount: '', // 預算金額
-        biddingDeadline: '', // 截止投標
-        openingDate: '', // 公告日期
-        status: 0
-      }
-      this.setTender(init)
-      this.$router.push({ name: 'TenderContent' })
-    },
     logout () {
       this.$router.push({ name: 'Login' })
     },
@@ -99,21 +87,18 @@ export default {
     saveTender () {
       this.setIsSave(true)
     },
-    async add () {
-      const obj = Object.values(this.currentTender).join(', ')
-      console.log(obj)
-      await ethContract.methods
-        .addTender(this.currentTender.name, this.currentTender.subjectProcurement)
-        .send(
-          {
-            from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
-          }
-        )
-        .then(function (receipt) {
-          console.log(receipt)
-        })
-      this.$router.push({ name: 'Dashboard' })
-    },
+    // async add () {
+    //   await ethContract.methods
+    //     .addTender(this.currentTender.name, this.currentTender.subjectProcurement)
+    //     .send(
+    //       {
+    //         from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
+    //       }
+    //     )
+    //     .then(function (receipt) {
+    //     })
+    //   this.$router.push({ name: 'Dashboard' })
+    // },
     async registerFirm () {
       await this.saveFirm()
       this.$router.push({ name: 'Dashboard' })
