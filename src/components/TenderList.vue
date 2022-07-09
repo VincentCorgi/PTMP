@@ -5,7 +5,7 @@
       variant="light"
       opacity="0.7"
     >
-    <div style="margin: 10px 400px 10px 300px;">
+    <div style="margin: 10px 200px 10px 300px;">
       <b-form-group
         label="篩選關鍵字"
         label-for="filter-input"
@@ -22,14 +22,18 @@
             placeholder="輸入標案名稱"
           ></b-form-input>
           <b-input-group-append>
-            <b-button variant="info" :disabled="!filter" @click="filter = ''">清除</b-button>
+            <b-button variant="info" :disabled="!filter" @click="filter = ''" style="margin-right: 100px">清除</b-button>
+            <b-button variant="outline-primary" style="float: right; margin-right: 10px;" @click="addTender">新增招標</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-form-group>
     </div>
     <div style="margin: 10px 50px 0px 50px">
       <b-table
-        thead-class="thClass"
+        :thead-class="{
+          invitation_thead: selectedItem === '招標查詢',
+          award_thead: selectedItem === '決標查詢'
+        }"
         :fields="fields"
         :items="tenderList"
         :filter="filter"
@@ -65,7 +69,6 @@
 
 <script>
 import { ethContract } from '@/service/index.js'
-import { statement } from '@babel/template'
 import { mapState } from 'vuex'
 
 export default {
@@ -118,6 +121,7 @@ export default {
   },
   computed: {
     ...mapState({
+      selectedItem: 'selectedItem',
       tenderList: state => state.tender.tenderList
     }),
     totalRows () {
@@ -149,14 +153,19 @@ export default {
       this.$router.push({
         name: 'TenderContent'
       })
-    }
+    },
+    addTender () {}
   }
 }
 </script>
 
 <style>
-.thClass{
-  background-color: #FFA042;
+.invitation_thead{
+  background-color: #ecaa68;
+  color: white;
+}
+.award_thead{
+  background-color: #2587f0;
   color: white;
 }
 </style>
