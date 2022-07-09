@@ -8,10 +8,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    selectedItem: '招標查詢'
   },
   getters: {
   },
   mutations: {
+    setSelectedItem (state, selectedItem) {
+      state.selectedItem = selectedItem
+    }
   },
   actions: {
     login () {}

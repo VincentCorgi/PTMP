@@ -14,19 +14,27 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
 export default {
   data () {
     return {
       sidebarItems: [
         '招標查詢',
         '決標查詢'
-      ],
-      selectedItem: '招標查詢'
+      ]
+      // selectedItem: '招標查詢'
     }
   },
+  computed: {
+    ...mapState({
+      selectedItem: 'selectedItem'
+    })
+  },
   methods: {
+    ...mapMutations(['setSelectedItem']),
     chooseItem (item) {
-      this.selectedItem = item
+      // this.selectedItem = item
+      this.setSelectedItem(item)
       const aaa = this.selectedItem === '招標查詢' ? 0 : 1
       this.$router.push({ name: 'Dashboard' })
     }
