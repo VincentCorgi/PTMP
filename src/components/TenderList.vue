@@ -6,10 +6,10 @@
       opacity="0.7"
     >
       <b-form-group
-        label="Filter"
+        label="篩選關鍵字"
         label-for="filter-input"
         label-cols-sm="3"
-        label-align-sm="right"
+        label-align-sm="center"
         label-size="sm"
         class="mb-0"
       >
@@ -18,10 +18,10 @@
             id="filter-input"
             v-model="filter"
             type="search"
-            placeholder="Type to Search"
+            placeholder="輸入標案名稱"
           ></b-form-input>
           <b-input-group-append>
-            <b-button variant="info" :disabled="!filter" @click="filter = ''">Clear</b-button>
+            <b-button variant="info" :disabled="!filter" @click="filter = ''">清除</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-form-group>
@@ -63,10 +63,40 @@ export default {
     return {
       fields: [
         {
+          key: 'superiorEntity',
+          label: '機關名稱',
+          sortable: true
+        },
+        {
           key: 'name',
           label: '標案名稱',
+          sortable: true
+        },
+        {
+          key: 'tenderMethod',
+          label: '招標方式',
+          sortable: true
+        },
+        {
+          key: 'subjectClassification',
+          label: '採購性質',
+          sortable: true
+        },
+        {
+          key: 'publishingNoticeDate',
+          label: '公告日期',
           sortable: true,
           sortDirection: 'desc'
+        },
+        {
+          key: 'tenderObtainingDeliverDeadline',
+          label: '截止日期',
+          sortable: true
+        },
+        {
+          key: 'budgetAmount',
+          label: '預算金額',
+          sortable: true
         }
       ],
       list: [],
@@ -88,6 +118,7 @@ export default {
       .then(function (receipt) {
         return receipt
       })
+    // amount可以在solidity裏面寫，並用拿取list可以優化至vuex
     for (let i = 0; i < amount; i++) {
       const tender = await ethContract.methods
         .tenders(i)
