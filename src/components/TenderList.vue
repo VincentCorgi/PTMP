@@ -29,6 +29,7 @@
     </div>
 
       <b-table
+        thead-class="thClass"
         :fields="fields"
         :items="list"
         :filter="filter"
@@ -81,18 +82,18 @@ export default {
           sortable: true
         },
         {
-          key: 'subjectClassification',
+          key: 'procurementProperty',
           label: '採購性質',
           sortable: true
         },
         {
-          key: 'publishingNoticeDate',
+          key: 'publishingDate',
           label: '公告日期',
           sortable: true,
           sortDirection: 'desc'
         },
         {
-          key: 'tenderObtainingDeliverDeadline',
+          key: 'biddingDeadline',
           label: '截止日期',
           sortable: true
         },
@@ -145,5 +146,8 @@ export default {
 </script>
 
 <style>
-
+.thClass{
+  background-color: #FFA042;
+  color: white;
+}
 </style>
