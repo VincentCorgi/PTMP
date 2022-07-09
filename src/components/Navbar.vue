@@ -1,17 +1,18 @@
 <template>
   <div class="navbar" >
     <div v-show="$route.name === 'Dashboard'" style="width: 100vw">
+      <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
+      <b-button pill variant="outline-danger" style="float: right;" @click="logout">登出</b-button>
+      <b-button variant="outline-primary" style="float: right; margin-right: 10px;" @click="addTender">新增招標</b-button>
       <b-nav-item-dropdown
         right
         :text="currentFirm.name"
+        style="float: right;"
       >
-        <b-nav-item>
+        <b-dropdown-item to="Management">
           使用者管理
-        </b-nav-item>
+        </b-dropdown-item>
       </b-nav-item-dropdown>
-      <span style="color:white; font-size: 30px">營造廠採購交易管理平台</span>
-      <b-button pill variant="outline-danger" style="float: right;" @click="logout">登出</b-button>
-      <b-button variant="outline-primary" style="float: right; margin-right: 10px;" @click="addTender">新增招標</b-button>
       <!-- <b-button @click="test()">測試鈕</b-button> -->
     </div>
     <div v-show="$route.name === 'TenderContent'" style="width: 100vw">
@@ -24,6 +25,10 @@
     <div v-show="$route.name === 'Register'" style="width: 100vw">
       <b-button pill variant="outline-danger" style="float: right;" @click="logout">登出</b-button>
       <b-button variant="outline-success" style="float: center;" @click= "registerFirm">確認</b-button>
+    </div>
+    <div v-show="$route.name === 'Management'" style="width: 100vw">
+      <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
+      <b-button pill variant="outline-warning" style="float: right;" @click="backToDashboard">返回</b-button>
     </div>
   </div>
 </template>
@@ -99,6 +104,9 @@ export default {
     },
     async registerFirm () {
       await this.saveFirm()
+      this.$router.push({ name: 'Dashboard' })
+    },
+    backToDashboard () {
       this.$router.push({ name: 'Dashboard' })
     }
   },
