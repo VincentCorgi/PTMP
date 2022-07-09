@@ -4,7 +4,7 @@
     <b-row align-h="center">
       <b-col cols="6">
       <div class="superiorEntity">
-        <div style="font-size: 20px; font-weight: bold; ">機關資訊</div>
+        <div style="font-size: 20px; font-weight: bold; margin-top: 0px; margin-bottom: 10px;">機關資訊</div>
         <b-form-group
             label-cols-sm="4"
             label-cols-lg="8"
@@ -116,5 +116,7 @@ export default {
 <style>
 .superiorEntity{
   margin-top: 10px;
+  background-color: rgb(116, 176, 235);
+  border-radius: 25px;
 }
 </style>
