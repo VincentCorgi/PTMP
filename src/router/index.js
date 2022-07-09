@@ -18,6 +18,14 @@ const routes = [
     redirect: { name: 'Login' }
   },
   {
+    path: '/register',
+    name: 'Register',
+    meta: {
+      title: '註冊'
+    },
+    component: () => import('@/views/Register')
+  },
+  {
     path: '/login',
     name: 'Login',
     meta: {
