@@ -26,6 +26,14 @@ const routes = [
     component: () => import('@/views/Register')
   },
   {
+    path: '/management',
+    name: 'Management',
+    meta: {
+      title: '使用者管理'
+    },
+    component: () => import('@/views/Management')
+  },
+  {
     path: '/login',
     name: 'Login',
     meta: {
