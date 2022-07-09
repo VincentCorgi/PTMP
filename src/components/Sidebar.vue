@@ -34,7 +34,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .sidebarItems {
   color: rgb(255, 255, 255) !important;
   background-color: #1d325f;
