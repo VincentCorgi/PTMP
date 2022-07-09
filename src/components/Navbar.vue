@@ -13,13 +13,16 @@
       <b-button v-else>去投標</b-button>
       <b-button @click="cancel">返回</b-button>
     </div>
+    <div v-show="$route.name === 'Register'" style="width: 100vw">
+      <b-button pill variant="outline-danger" style="float: right;" @click="logout">登出</b-button>
+      <b-button variant="outline-success" style="float: center;" @click="addFirm">確認</b-button>
+    </div>
   </div>
 </template>
 
 <script>
 import { ethContract } from '@/service/index.js'
-import { mapMutations, mapState } from 'vuex'
-import Web3 from 'web3'
+import { mapActions, mapMutations, mapState } from 'vuex'
 
 export default {
   name: 'Navbar',
@@ -37,6 +40,7 @@ export default {
   },
   methods: {
     ...mapMutations('tender', ['setTender', 'setIsOwner', 'setIsSave']),
+    ...mapActions('firm', ['saveFirm']),
     async test () {
       await ethContract.methods
         .addTender('範例二', '對')
@@ -83,6 +87,9 @@ export default {
           console.log(receipt)
         })
       this.$router.push({ name: 'Dashboard' })
+    },
+    addFirm () {
+      this.saveFirm()
     }
   },
   watch: {
