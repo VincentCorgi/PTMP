@@ -27,16 +27,19 @@
         </b-input-group>
       </b-form-group>
     </div>
-
+    <div style="margin: 10px 50px 0px 50px">
       <b-table
         thead-class="thClass"
         :fields="fields"
-        :items="list"
+        :items="tenderList"
         :filter="filter"
         :current-page="currentPage"
         :per-page="perPage"
         striped
       >
+        <template #cell(superiorEntity)="row">
+          <span>{{ row.item.tenderer.name }}</span>
+        </template>
         <template #cell(name)="row">
           <router-link
             :to="{}"
@@ -55,12 +58,15 @@
         first-number
         last-number
       ></b-pagination>
+    </div>
     </b-overlay>
   </div>
 </template>
 
 <script>
 import { ethContract } from '@/service/index.js'
+import { statement } from '@babel/template'
+import { mapState } from 'vuex'
 
 export default {
   data () {
@@ -111,8 +117,11 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      tenderList: state => state.tender.tenderList
+    }),
     totalRows () {
-      return this.list.length
+      return this.tenderList.length
     }
   },
   async mounted () {
