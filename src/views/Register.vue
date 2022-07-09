@@ -34,6 +34,14 @@
             <b-form-input v-model="currentFirm.contactNumber"/>
           </b-col>
         </b-row>
+        <b-row align-h="center" style="margin-top: 12px">
+          <b-col cols="2">
+            <span>電子郵件：</span>
+          </b-col>
+          <b-col cols="4">
+            <b-form-input v-model="currentFirm.email"/>
+          </b-col>
+        </b-row>
       </b-col>
     </b-row>
   </b-container>

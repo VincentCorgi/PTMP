@@ -7,6 +7,7 @@ export default {
       contact: 'bbb',
       contactNumber: 'ccc',
       contactAddress: 'ddd',
+      email: 'aaa@gmail.com',
       tendersInfo: [
         {
           name: 'aaa',

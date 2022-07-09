@@ -1,6 +1,60 @@
 <template>
   <b-container fluid>
-    <b-row class="vh-100" align-v="center">
+    <!-- class="vh-100" align-v="center" -->
+    <b-row align-h="center">
+      <b-col cols="6">
+      <div class="superiorEntity">
+        <div style="font-size: 20px; font-weight: bold; ">機關資訊</div>
+        <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="公司名稱："
+          >
+            <span>{{currentFirm.name}}</span>
+        </b-form-group>
+            <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="公司地址："
+          >
+            <span>{{currentFirm.contactAddress}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="聯絡人："
+          >
+            <span>{{currentFirm.contact}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="聯絡電話："
+          >
+            <span>{{currentFirm.contactNumber}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="電子郵件："
+          >
+            <span>{{currentFirm.email}}</span>
+          </b-form-group>
+      </div>
+      </b-col>
+    </b-row>
+    <!-- --------------------------------------------------------------- -->
+    <b-row align-h="center">
       <b-col class="">
         <b-row align-h="center">
           <b-col cols="2">
@@ -44,6 +98,7 @@ export default {
   computed: {
     ...mapState({
       currentTender: state => state.tender.current,
+      currentFirm: state => state.firm.current,
       isSave: state => state.tender.isSave
     })
   },
@@ -59,5 +114,7 @@ export default {
 </script>
 
 <style>
-
+.superiorEntity{
+  margin-top: 10px;
+}
 </style>

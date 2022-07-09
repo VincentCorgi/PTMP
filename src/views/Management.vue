@@ -39,6 +39,15 @@
           >
             <span>{{currentFirm.contactNumber}}</span>
           </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="電子郵件："
+          >
+            <span>{{currentFirm.email}}</span>
+          </b-form-group>
         </b-col>
         <!-- <b-col cols="1"> -->
           <div class="line"></div>
