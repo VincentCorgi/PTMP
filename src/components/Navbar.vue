@@ -1,9 +1,17 @@
 <template>
   <div class="navbar" >
     <div v-show="$route.name === 'Dashboard'" style="width: 100vw">
+      <b-nav-item-dropdown
+        right
+        :text="currentFirm.name"
+      >
+        <b-nav-item>
+          使用者管理
+        </b-nav-item>
+      </b-nav-item-dropdown>
       <span style="color:white; font-size: 30px">營造廠採購交易管理平台</span>
       <b-button pill variant="outline-danger" style="float: right;" @click="logout">登出</b-button>
-      <b-button variant="outline-primary" style="float: right;" @click="addTender">新增招標</b-button>
+      <b-button variant="outline-primary" style="float: right; margin-right: 10px;" @click="addTender">新增招標</b-button>
       <!-- <b-button @click="test()">測試鈕</b-button> -->
     </div>
     <div v-show="$route.name === 'TenderContent'" style="width: 100vw">
@@ -15,7 +23,7 @@
     </div>
     <div v-show="$route.name === 'Register'" style="width: 100vw">
       <b-button pill variant="outline-danger" style="float: right;" @click="logout">登出</b-button>
-      <b-button variant="outline-success" style="float: center;" @click="addFirm">確認</b-button>
+      <b-button variant="outline-success" style="float: center;" @click= "registerFirm">確認</b-button>
     </div>
   </div>
 </template>
@@ -35,6 +43,7 @@ export default {
   computed: {
     ...mapState({
       currentTender: state => state.tender.current,
+      currentFirm: state => state.firm.current,
       isSave: state => state.tender.isSave
     })
   },
@@ -88,8 +97,9 @@ export default {
         })
       this.$router.push({ name: 'Dashboard' })
     },
-    addFirm () {
-      this.saveFirm()
+    async registerFirm () {
+      await this.saveFirm()
+      this.$router.push({ name: 'Dashboard' })
     }
   },
   watch: {
