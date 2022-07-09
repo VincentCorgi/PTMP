@@ -5,6 +5,7 @@
       variant="light"
       opacity="0.7"
     >
+    <div style="margin: 10px 400px 10px 300px;">
       <b-form-group
         label="篩選關鍵字"
         label-for="filter-input"
@@ -25,6 +26,8 @@
           </b-input-group-append>
         </b-input-group>
       </b-form-group>
+    </div>
+
       <b-table
         :fields="fields"
         :items="list"
