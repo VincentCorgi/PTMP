@@ -1,14 +1,15 @@
 <template>
-  <div class="navbar">
-    <div v-show="$route.name === 'Dashboard'">
+  <div class="navbar" >
+    <div v-show="$route.name === 'Dashboard'" style="width: 100vw">
+      <span style="color:white; font-size: 30px">營造廠採購交易管理平台</span>
       <b-button pill variant="outline-danger" style="float: right;" @click="logout">登出</b-button>
       <b-button variant="outline-primary" style="float: right;" @click="addTender">新增招標</b-button>
       <!-- <b-button @click="test()">測試鈕</b-button> -->
     </div>
-    <div v-show="$route.name === 'TenderContent'">
+    <div v-show="$route.name === 'TenderContent'" style="width: 100vw">
       <b-button v-if="isOwner" :disabled="!isSave" @click="editTender">編輯</b-button>
       <b-button v-if="isOwner" :disabled="isSave" @click="saveTender">儲存</b-button>
-      <b-button v-else-if="isAdd">確認</b-button>
+      <b-button v-else-if="isAdd" @click="add">確認</b-button>
       <b-button v-else>去投標</b-button>
       <b-button @click="cancel">返回</b-button>
     </div>
@@ -67,6 +68,21 @@ export default {
     },
     saveTender () {
       this.setIsSave(true)
+    },
+    async add () {
+      const obj = Object.values(this.currentTender).join(', ')
+      console.log(obj)
+      await ethContract.methods
+        .addTender(this.currentTender.name, this.currentTender.subjectProcurement)
+        .send(
+          {
+            from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
+          }
+        )
+        .then(function (receipt) {
+          console.log(receipt)
+        })
+      this.$router.push({ name: 'Dashboard' })
     }
   },
   watch: {
