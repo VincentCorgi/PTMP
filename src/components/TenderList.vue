@@ -69,7 +69,7 @@
 
 <script>
 import { ethContract } from '@/service/index.js'
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   data () {
@@ -129,32 +129,49 @@ export default {
     }
   },
   async mounted () {
-    const amount = await ethContract.methods
-      .getCount()
-      .call()
-      .then(function (receipt) {
-        return receipt
-      })
-    // amount可以在solidity裏面寫，並用拿取list可以優化至vuex
-    for (let i = 0; i < amount; i++) {
-      const tender = await ethContract.methods
-        .tenders(i)
-        .call()
-        .then(function (receipt) {
-          return receipt
-        })
-      this.list.push(tender)
-    }
+    // const amount = await ethContract.methods
+    //   .getCount()
+    //   .call()
+    //   .then(function (receipt) {
+    //     return receipt
+    //   })
+    // // amount可以在solidity裏面寫，並用拿取list可以優化至vuex
+    // for (let i = 0; i < amount; i++) {
+    //   const tender = await ethContract.methods
+    //     .tenders(i)
+    //     .call()
+    //     .then(function (receipt) {
+    //       return receipt
+    //     })
+    //   this.list.push(tender)
+    // }
     this.show = false
   },
   methods: {
+    ...mapMutations('tender', ['setTender']),
     pushTo (data) {
       this.$store.commit('tender/setTender', data)
       this.$router.push({
         name: 'TenderContent'
       })
     },
-    addTender () {}
+    async addTender () {
+      const current = new Date()
+      const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`
+      const init = {
+        addr: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0], // 待抓當前
+        name: '',
+        tenderMethod: '公開招標', // 招標方式
+        procurementProperty: '', // 採購性質
+        publishingDate: today, // 公告日
+        budgetAmount: '', // 預算金額
+        biddingDeadline: '', // 截止投標
+        openingDate: '', // 公告日期
+        status: 0
+      }
+      this.setTender(init)
+      this.$router.push({ name: 'AddTender' })
+    }
   }
 }
 </script>
