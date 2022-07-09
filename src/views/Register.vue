@@ -4,7 +4,7 @@
       <b-col>
         <b-row align-h="center" style="margin-top: 12px">
           <b-col cols="2">
-            <span>公司名稱</span>
+            <span>公司名稱：</span>
           </b-col>
           <b-col cols="4">
             <b-form-input v-model="firm.name"/>
@@ -12,7 +12,7 @@
         </b-row>
         <b-row align-h="center" style="margin-top: 12px">
           <b-col cols="2">
-            <span>公司地址</span>
+            <span>公司地址：</span>
           </b-col>
           <b-col cols="4">
             <b-form-input v-model="firm.contactAddress"/>
@@ -20,7 +20,7 @@
         </b-row>
         <b-row align-h="center" style="margin-top: 12px">
           <b-col cols="2">
-            <span>聯絡人</span>
+            <span>聯絡人：</span>
           </b-col>
           <b-col cols="4">
             <b-form-input v-model="firm.contact"/>
@@ -28,7 +28,7 @@
         </b-row>
         <b-row align-h="center" style="margin-top: 12px">
           <b-col cols="2">
-            <span>聯絡電話</span>
+            <span>聯絡電話：</span>
           </b-col>
           <b-col cols="4">
             <b-form-input v-model="firm.contactNumber"/>
