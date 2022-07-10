@@ -18,11 +18,6 @@
     </div>
     <div v-show="$route.name === 'TenderContent'" style="width: 100vw">
       <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
-      <!-- <b-button v-if="isOwner" :disabled="!isSave" @click="editTender">編輯</b-button> -->
-      <!-- <b-button v-if="isOwner" :disabled="isSave" @click="saveTender">儲存</b-button> -->
-      <!-- <b-button v-else-if="isAdd" @click="add">確認</b-button> -->
-      <!-- <b-button v-else>去投標</b-button> -->
-      <!-- <b-button @click="cancel">返回</b-button> -->
     </div>
     <div v-show="$route.name === 'Register'" style="width: 100vw">
       <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
@@ -63,42 +58,13 @@ export default {
   methods: {
     ...mapMutations('tender', ['setTender', 'setIsOwner', 'setIsSave']),
     ...mapActions('firm', ['saveFirm']),
-    async test () {
-      // await ethContract.methods
-      //   .addTender('範例二', '對')
-      //   .send(
-      //     {
-      //       from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
-      //     }
-      //   )
-      //   .then(function (receipt) {
-      //     console.log(receipt)
-      //   })
-    },
+
     logout () {
       this.$router.push({ name: 'Login' })
     },
     cancel () {
       this.$router.push({ name: 'Dashboard' })
     },
-    editTender () {
-      this.setIsSave(false)
-    },
-    saveTender () {
-      this.setIsSave(true)
-    },
-    // async add () {
-    //   await ethContract.methods
-    //     .addTender(this.currentTender.name, this.currentTender.subjectProcurement)
-    //     .send(
-    //       {
-    //         from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
-    //       }
-    //     )
-    //     .then(function (receipt) {
-    //     })
-    //   this.$router.push({ name: 'Dashboard' })
-    // },
     async registerFirm () {
       await this.saveFirm()
       this.$router.push({ name: 'Dashboard' })
