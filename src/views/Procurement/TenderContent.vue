@@ -13,7 +13,7 @@
             content-cols-lg="4"
             label="公司名稱："
           >
-            <span>{{currentFirm.name}}</span>
+            <span>{{currentTender.tenderer.name}}</span>
         </b-form-group>
             <b-form-group
             label-cols-sm="4"
@@ -22,7 +22,7 @@
             content-cols-lg="4"
             label="公司地址："
           >
-            <span>{{currentFirm.contactAddress}}</span>
+            <span>{{currentTender.tenderer.contactAddress}}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
@@ -31,7 +31,7 @@
             content-cols-lg="4"
             label="聯絡人："
           >
-            <span>{{currentFirm.contact}}</span>
+            <span>{{currentTender.tenderer.contact}}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
@@ -40,7 +40,7 @@
             content-cols-lg="4"
             label="聯絡電話："
           >
-            <span>{{currentFirm.contactNumber}}</span>
+            <span>{{currentTender.tenderer.contactNumber}}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
@@ -49,7 +49,7 @@
             content-cols-lg="4"
             label="電子郵件："
           >
-            <span>{{currentFirm.email}}</span>
+            <span>{{currentTender.tenderer.email}}</span>
           </b-form-group>
       </div>
       </b-col>
@@ -203,8 +203,8 @@ export default {
   data () {
     return {
       isSMEOptions: [
-        { text: '是', value: 0 },
-        { text: '否', value: 1 }
+        { text: '是', value: true },
+        { text: '否', value: false }
       ],
       exerciseDateStart: '',
       exerciseDateEnd: '',
@@ -218,21 +218,19 @@ export default {
   },
   computed: {
     ...mapState({
-      currentTender: state => state.tender.current,
-      currentFirm: state => state.firm.current
+      currentTender: state => state.tender.current
     })
   },
   methods: {
     async addBidder () {
       this.bidder.addr = (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
       this.bidder.exerciseDate = `${this.exerciseDateStart}~${this.exerciseDateEnd}`
-      console.log(this.bidder)
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .superiorEntity{
   margin-top: 10px;
   background-color: rgb(190, 218, 247);
