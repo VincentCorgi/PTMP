@@ -34,15 +34,18 @@
           invitation_thead: selectedItem === '招標查詢',
           award_thead: selectedItem === '決標查詢'
         }"
-        :fields="fields"
+        :fields="selectedItem === '招標查詢' ? invitation_fields : award_fields"
         :items="tenderList"
         :filter="filter"
-        :current-page="currentPage"
+        current-page="10"
         :per-page="perPage"
         striped
       >
         <template #cell(superiorEntity)="row">
           <span>{{ row.item.tenderer.name }}</span>
+        </template>
+        <template #cell(items)="row">
+          {{ `${row.index +1}` }}
         </template>
         <template #cell(name)="row">
           <router-link
@@ -69,12 +72,17 @@
 
 <script>
 import { ethContract } from '@/service/index.js'
-import { mapMutations, mapState } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 
 export default {
   data () {
     return {
-      fields: [
+      invitation_fields: [
+        {
+          key: 'items',
+          label: '項次',
+          sortable: true
+        },
         {
           key: 'superiorEntity',
           label: '機關名稱',
@@ -112,18 +120,55 @@ export default {
           sortable: true
         }
       ],
+      award_fields: [
+        {
+          key: 'items',
+          label: '項次',
+          sortable: true
+        },
+        {
+          key: 'superiorEntity',
+          label: '機關名稱',
+          sortable: true
+        },
+        {
+          key: 'name',
+          label: '標案名稱',
+          sortable: true
+        },
+        {
+          key: 'tenderMethod',
+          label: '招標方式',
+          sortable: true
+        },
+        {
+          key: 'procurementProperty',
+          label: '採購性質',
+          sortable: true
+        },
+        {
+          key: 'publishingDate',
+          label: '公告日期',
+          sortable: true,
+          sortDirection: 'desc'
+        },
+        {
+          key: 'awardAmount',
+          label: '決標金額',
+          sortable: true
+        }
+      ],
       list: [],
       currentPage: 1,
-      perPage: 10,
       filter: null,
       show: true
     }
   },
   computed: {
     ...mapState({
-      selectedItem: 'selectedItem',
-      tenderList: state => state.tender.tenderList
+      selectedItem: 'selectedItem'
     }),
+    ...mapGetters('tender', ['tenderList']),
     totalRows () {
       return this.tenderList.length
     }
@@ -151,9 +196,9 @@ export default {
     ...mapMutations('tender', ['setTender']),
     pushTo (data) {
       this.$store.commit('tender/setTender', data)
-      this.$router.push({
-        name: 'TenderContent'
-      })
+      this.selectedItem === '招標查詢'
+        ? this.$router.push({ name: 'TenderContent' })
+        : this.$router.push({ name: 'AwardTender' })
     },
     async addTender () {
       const current = new Date()
