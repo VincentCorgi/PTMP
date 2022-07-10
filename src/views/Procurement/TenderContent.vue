@@ -65,8 +65,64 @@
             size="lg"
             variant="info"
             style="margin: 0px 0px 20px 10px"
-            @click="biddingTender"
+            v-b-modal.biddingModal
           >去投標</b-button>
+          <b-modal id="biddingModal" title="填寫投標資訊！！">
+            <template #default="{  }">
+              <b-form-group
+                label-cols-sm="3"
+                label-align-sm="left"
+                style="padding-left: 20px; margin-bottom: 12px"
+                label="投標金額："
+              >
+                <b-form-input
+                  type="number"
+                  style="float: left;"
+                  v-model="bidder.price"
+                ></b-form-input>
+              </b-form-group>
+              <b-form-group
+                label-cols-sm="3"
+                label-align-sm="left"
+                style="padding-left: 20px; margin-bottom: 12px"
+                label="履約日期："
+              >
+                <b-form-datepicker
+                 style="float: left; width: 40%; margin-top: 13px;"
+                 size="sm"
+                 v-model="exerciseDateStart"
+                ></b-form-datepicker>
+            <div class="p-0" style="margin-top: 20px;">
+              ~
+            </div>
+                <b-form-datepicker
+                 style="float: left; width: 40%; margin-left: 20px; margin-top: -30px;"
+                  size="sm"
+                  v-model="exerciseDateEnd"
+                ></b-form-datepicker>
+              </b-form-group>
+              <b-form-group
+                label-cols-sm="3"
+                label-align-sm="left"
+                style="padding-left: 20px; margin-bottom: 12px"
+                label="是否為中小企業："
+              >
+                <b-form-radio-group
+                  :options="isSMEOptions"
+                  style="float: left; margin-top: 20px;"
+                  v-model="bidder.isSME"
+                ></b-form-radio-group>
+              </b-form-group>
+            </template>
+            <template #modal-footer="{ cancel }">
+              <b-button size="sm" variant="danger" @click="cancel()">
+                取消
+              </b-button>
+              <b-button size="sm" variant="success" @click="addBidder()">
+                確認
+              </b-button>
+            </template>
+          </b-modal>
         </div>
       </b-col>
     </b-row>
@@ -144,6 +200,22 @@ import { mapState } from 'vuex'
 
 export default {
   name: 'TenderContent',
+  data () {
+    return {
+      isSMEOptions: [
+        { text: '是', value: 0 },
+        { text: '否', value: 1 }
+      ],
+      exerciseDateStart: '',
+      exerciseDateEnd: '',
+      bidder: {
+        addr: '',
+        price: '',
+        exerciseDate: '',
+        isSME: ''
+      }
+    }
+  },
   computed: {
     ...mapState({
       currentTender: state => state.tender.current,
@@ -151,8 +223,10 @@ export default {
     })
   },
   methods: {
-    biddingTender () {
-
+    async addBidder () {
+      this.bidder.addr = (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
+      this.bidder.exerciseDate = `${this.exerciseDateStart}~${this.exerciseDateEnd}`
+      console.log(this.bidder)
     }
   }
 }
