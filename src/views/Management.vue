@@ -41,7 +41,7 @@
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
-            label-cols-lg="8"
+            label-cols-lg="6"
             content-cols-sm
             content-cols-lg="4"
             label="電子郵件："
@@ -54,7 +54,7 @@
         <!-- </b-col> -->
         <b-col cols="5">
           <div style="margin: 50px; font-size: 20px; font-weight: bold">標案資訊</div>
-          <div style="max-height:70vh;overflow-y:scroll;">
+          <div class="tenderInfo">
             <b-list-group vertical>
               <b-list-group-item
                 href="#"
@@ -94,7 +94,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .line{
   float: center;
   width:0.1em;
@@ -103,5 +103,15 @@ export default {
   margin-left:3.5em; */
   margin: 1%;
   background: #A6B0DE;;
+}
+.tenderInfo{
+  border-radius: 25px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: rgb(87, 216, 113);
+  box-shadow: 7px 10px #888888;
+  /* border-color: red; */
+  max-height:70vh;
+  overflow-y:scroll;
 }
 </style>
