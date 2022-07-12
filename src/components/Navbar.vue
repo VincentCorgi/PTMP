@@ -22,7 +22,6 @@
     <div v-show="$route.name === 'Register'" style="width: 100vw">
       <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
       <b-button pill variant="outline-danger" style="float: right;" @click="logout">登出</b-button>
-      <b-button variant="outline-success" style="float: center;" @click= "registerFirm">確認</b-button>
     </div>
     <div v-show="$route.name === 'Management'" style="width: 100vw">
       <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
@@ -57,18 +56,13 @@ export default {
   },
   methods: {
     ...mapMutations('tender', ['setTender', 'setIsOwner', 'setIsSave']),
-    ...mapActions('firm', ['saveFirm']),
-
     logout () {
       this.$router.push({ name: 'Login' })
     },
     cancel () {
       this.$router.push({ name: 'Dashboard' })
     },
-    async registerFirm () {
-      await this.saveFirm()
-      this.$router.push({ name: 'Dashboard' })
-    },
+
     backToDashboard () {
       this.$router.push({ name: 'Dashboard' })
     }
