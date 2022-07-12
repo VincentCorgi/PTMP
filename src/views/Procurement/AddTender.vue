@@ -63,10 +63,12 @@
             label="截止投標："
           >
             <b-form-datepicker
+            size="sm"
               style="float: left; width: 50%;"
               v-model="biddingDeadlineDate"
             ></b-form-datepicker>
             <b-form-timepicker
+            size="sm"
               style="float: left; width: 50%;"
               @context="onContextBiddingDeadline"
             >
@@ -81,10 +83,12 @@
             label="開標日期："
           >
             <b-form-datepicker
+              size="sm"
               style="float: left; width: 50%;"
               v-model="openingDateDate"
             ></b-form-datepicker>
             <b-form-timepicker
+            size="sm"
               style="float: left; width: 50%;"
               @context="onContextOpeningDate"
             >
