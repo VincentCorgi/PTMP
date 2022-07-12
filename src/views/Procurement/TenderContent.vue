@@ -65,15 +65,15 @@
             size="lg"
             variant="info"
             style="margin: 0px 0px 20px 10px"
-            v-b-modal.biddingModal
+            @click="modalShow = !modalShow"
           >去投標</b-button>
-          <b-modal id="biddingModal" title="填寫投標資訊！！">
+          <b-modal id="biddingModal" v-model="modalShow" hide-footer title="填寫投標資訊！！">
             <b-overlay
               :show="show"
               variant="light"
               opacity="0.7"
             >
-            <template #default="{  }">
+            <!-- <template #default="{  }"> -->
               <b-form-group
                 label-cols-sm="3"
                 label-align-sm="left"
@@ -118,15 +118,25 @@
                   v-model="bidder.isSME"
                 ></b-form-radio-group>
               </b-form-group>
-            </template>
-            <template #modal-footer="{ cancel }">
-              <b-button size="sm" variant="danger" @click="cancel()">
-                取消
-              </b-button>
-              <b-button size="sm" variant="success" @click="addBidder()">
+            <!-- </template> -->
+            <!-- <template #modal-footer="{ addBidder, cancel }"> -->
+              <b-button
+                size="sm"
+                variant="success"
+                @click="addBidder()"
+                style="float: right; margin-left: 10px;"
+              >
                 確認
               </b-button>
-            </template>
+              <b-button
+                size="sm"
+                variant="danger"
+                @click="cancel()"
+                style="float: right;"
+              >
+                取消
+              </b-button>
+            <!-- </template> -->
         </b-overlay>
 
           </b-modal>
@@ -216,8 +226,12 @@
       </b-col>
       <b-col></b-col>
     </b-row>
-    <b-row align-h="center">
-
+    <b-row align-h="center" >
+      <b-col>
+        <div v-if="Object.keys(this.bid).length !== 0">
+          aaa
+        </div>
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -242,7 +256,9 @@ export default {
         exerciseDate: '',
         isSME: ''
       },
-      show: false
+      show: false,
+      modalShow: false,
+      bid: {}
     }
   },
   computed: {
@@ -250,28 +266,46 @@ export default {
       currentTender: state => state.tender.current
     })
   },
+  async mounted () {
+    console.log(Object.keys(this.bid).length === 0)
+    const result = await ethContract.methods
+      .lookupBidder(
+        this.currentTender.id,
+        (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
+      )
+      .call()
+      .then(res => {
+        return res
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    if (result) {
+      const bidder = await this.lookupFirm(Object.values(result)[0])
+      this.bid.bidder = bidder
+      this.bid.price = Object.values(result)[1]
+      this.bid.exerciseDate = Object.values(result)[2]
+      this.bid.isSME = Object.values(result)[3]
+    } else {
+      console.log('bbb')
+    }
+    console.log(this.bid)
+  },
   methods: {
-    // ...mapActions('tender', ['addTenderBidder']),
+    ...mapActions('tender', ['addTenderBidder']),
+    ...mapActions('firm', ['lookupFirm']),
+    cancel () {
+      this.modalShow = false
+    },
     async addBidder () {
       this.show = true
-      this.bidder.addr = (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
       this.bidder.exerciseDate = `${this.exerciseDateStart}~${this.exerciseDateEnd}`
-      await ethContract.methods
-        .addTenderBidder(
-          this.currentTender.id,
-          this.bidder.addr,
-          this.bidder.price,
-          this.bidder.exerciseDate,
-          this.bidder.isSME
-        )
-        .send({ from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0] })
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      await this.addTenderBidder({
+        tenderId: this.currentTender.id,
+        bidderInfo: this.bidder
+      })
       this.show = false
+      this.modalShow = false
     }
   }
 }
