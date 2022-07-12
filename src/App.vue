@@ -8,7 +8,7 @@
     <div class="sidebar" v-show="$route.name !== 'Login' && $route.name !== '404' && $route.name !== 'Vincent' && $route.name !== 'Register'">
       <sidebar/>
     </div>
-    <div class="main-content" >
+    <div class="main-content open-content" >
       <router-view />
     </div>
   </div>
@@ -46,6 +46,12 @@ export default {
   height: 100%;
   width: calc(100vw - 200px);
   margin-left: 200px;
+}
+.open-content{
+  top: 55px;
+  overflow-y:scroll;
+  height: calc(100vh - 55px);
+  width: calc(100% - 200px);
 }
 /* nav {
   padding: 30px;
