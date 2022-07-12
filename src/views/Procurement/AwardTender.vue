@@ -9,35 +9,35 @@
             content-cols-sm
             label="公司名稱："
           >
-            <span style="float: left;">{{currentTender.tenderer.name}}</span>
+            <span style="float: left; margin-top: 5px;">{{currentTender.tenderer.name}}</span>
         </b-form-group>
             <b-form-group
             label-cols-sm="4"
             content-cols-sm
             label="公司地址："
           >
-            <span style="float: left;">{{currentTender.tenderer.contactAddress}}</span>
+            <span style="float: left; margin-top: 5px;">{{currentTender.tenderer.contactAddress}}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
             content-cols-sm
             label="聯絡人："
           >
-            <span style="float: left;">{{currentTender.tenderer.contact}}</span>
+            <span style="float: left; margin-top: 5px;">{{currentTender.tenderer.contact}}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
             content-cols-sm
             label="聯絡電話："
           >
-            <span style="float: left;">{{currentTender.tenderer.contactNumber}}</span>
+            <span style="float: left; margin-top: 5px;">{{currentTender.tenderer.contactNumber}}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
             content-cols-sm
             label="電子郵件："
           >
-            <span style="float: left;">{{currentTender.tenderer.email}}</span>
+            <span style="float: left; margin-top: 5px;">{{currentTender.tenderer.email}}</span>
           </b-form-group>
       </div>
       </b-col>
@@ -50,7 +50,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="標案名稱："
           >
-            <span style="float: left;">{{ currentTender.name }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.name }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="3"
@@ -58,7 +58,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="招標方式："
           >
-            <span style="float: left;">{{ currentTender.tenderMethod }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.tenderMethod }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="3"
@@ -66,7 +66,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="採購性質："
           >
-            <span style="float: left;">{{ currentTender.procurementProperty }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.procurementProperty }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="3"
@@ -74,7 +74,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="公告日："
           >
-            <span style="float: left;">{{ currentTender.publishingDate }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.publishingDate }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="3"
@@ -82,7 +82,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="預算金額："
           >
-            <span style="float: left;">{{ currentTender.budgetAmount }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.budgetAmount }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="3"
@@ -90,7 +90,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="截止投標："
           >
-            <span style="float: left;">{{ currentTender.biddingDeadline }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.biddingDeadline }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="3"
@@ -98,13 +98,46 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="開標日期："
           >
-            <span style="float: left;">{{ currentTender.openingDate }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.openingDate }}</span>
           </b-form-group>
         </div>
       </b-col>
       <b-col cols="4">
         <div class="awardInfo">
           <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">決標資訊</div>
+          <b-form-group
+            label-cols-sm="3"
+            label-align-sm="left"
+            style="padding-left: 20px; margin-bottom: 12px"
+            label="得標廠商："
+          >
+            <span style="float: left; margin-top: 5px;">{{ currentTender.awardTender.bidder.name }}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="3"
+            label-align-sm="left"
+            style="padding-left: 20px; margin-bottom: 12px"
+            label="決標金額："
+          >
+            <span style="float: left; margin-top: 5px;">{{ currentTender.awardTender.price }}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="3"
+            label-align-sm="left"
+            style="padding-left: 20px; margin-bottom: 12px"
+            label="履約起迄日期："
+          >
+            <span style="float: left; margin-top: 5px;">{{ currentTender.awardTender.exerciseDate }}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="3"
+            label-align-sm="left"
+            style="padding-left: 20px; margin-bottom: 12px"
+            label="是否為中小企業："
+          >
+            <span style="float: left; margin-top: 5px;" v-if="currentTender.awardTender.isSME === true">是</span>
+            <span style="float: left; margin-top: 5px;" v-else>否</span>
+          </b-form-group>
         </div>
       </b-col>
     </b-row>
@@ -115,11 +148,14 @@
           <b-table
             thead-class="thClass"
             :fields="fields"
-            :items="items"
+            :items="currentTender.bidders"
             striped
           >
             <template #cell(items)="row">
              {{ `${row.index +1}` }}
+            </template>
+            <template  #cell(name)="row">
+              <span>{{ row.item.bidder.name }}</span>
             </template>
             <template #cell(isSME)="row">
              <span v-if="row.value === true">是</span>
@@ -164,14 +200,6 @@ export default {
           label: '是否為中小企業',
           sortable: true
         }
-      ],
-      items: [
-        {
-          name: 'aaa',
-          price: 'aaa',
-          exerciseDate: 'aaa',
-          isSME: false
-        }
       ]
     }
   },
@@ -180,7 +208,6 @@ export default {
       currentTender: state => state.tender.current
     })
   }
-
 }
 </script>
 
