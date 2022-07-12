@@ -22,8 +22,18 @@
             placeholder="輸入標案名稱"
           ></b-form-input>
           <b-input-group-append>
-            <b-button variant="info" :disabled="!filter" @click="filter = ''" style="margin-right: 100px">清除</b-button>
-            <b-button variant="outline-primary" style="float: right; margin-right: 10px;" @click="addTender">新增招標</b-button>
+            <b-button
+              variant="info"
+              :disabled="!filter"
+              @click="filter = ''"
+              style="margin-right: 100px"
+            >清除</b-button>
+            <b-button
+              variant="primary"
+              style="float: right; margin-left: 50px; border-radius: 5px;"
+              size="lg"
+              @click="addTender"
+            >新增招標</b-button>
           </b-input-group-append>
         </b-input-group>
       </b-form-group>
@@ -37,7 +47,7 @@
         :fields="selectedItem === '招標查詢' ? invitation_fields : award_fields"
         :items="tenderList"
         :filter="filter"
-        current-page="10"
+        :current-page="currentPage"
         :per-page="perPage"
         striped
       >
@@ -71,8 +81,7 @@
 </template>
 
 <script>
-import { ethContract } from '@/service/index.js'
-import { mapGetters, mapMutations, mapState } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 
 export default {
   data () {
@@ -161,7 +170,8 @@ export default {
       list: [],
       currentPage: 1,
       filter: null,
-      show: true
+      show: true,
+      perPage: 10
     }
   },
   computed: {
@@ -174,47 +184,30 @@ export default {
     }
   },
   async mounted () {
-    // const amount = await ethContract.methods
-    //   .getCount()
-    //   .call()
-    //   .then(function (receipt) {
-    //     return receipt
-    //   })
-    // // amount可以在solidity裏面寫，並用拿取list可以優化至vuex
-    // for (let i = 0; i < amount; i++) {
-    //   const tender = await ethContract.methods
-    //     .tenders(i)
-    //     .call()
-    //     .then(function (receipt) {
-    //       return receipt
-    //     })
-    //   this.list.push(tender)
-    // }
+    await this.lookupTenderList()
     this.show = false
   },
   methods: {
-    ...mapMutations('tender', ['setTender']),
+    ...mapActions('tender', ['lookupTenderList']),
     pushTo (data) {
+      if (this.selectedItem === '決標查詢') {
+        let awardTender
+        let price = 0
+        for (let i = 0; i < data.bidders.length; i++) {
+          const element = data.bidders[i]
+          if (element.price > price) {
+            price = element.price
+            awardTender = element
+          }
+        }
+        data.awardTender = awardTender
+      }
       this.$store.commit('tender/setTender', data)
       this.selectedItem === '招標查詢'
         ? this.$router.push({ name: 'TenderContent' })
         : this.$router.push({ name: 'AwardTender' })
     },
     async addTender () {
-      const current = new Date()
-      const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`
-      const init = {
-        addr: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0], // 待抓當前
-        name: '',
-        tenderMethod: '公開招標', // 招標方式
-        procurementProperty: '', // 採購性質
-        publishingDate: today, // 公告日
-        budgetAmount: '', // 預算金額
-        biddingDeadline: '', // 截止投標
-        openingDate: '', // 公告日期
-        status: 0
-      }
-      this.setTender(init)
       this.$router.push({ name: 'AddTender' })
     }
   }

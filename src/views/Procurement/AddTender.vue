@@ -1,5 +1,10 @@
 <template>
   <b-container fluid>
+            <b-overlay
+          :show="show"
+          variant="light"
+          opacity="0.7"
+        >
     <b-row >
       <b-col>
         <div style="margin-top: 50px">
@@ -82,6 +87,7 @@
         <b-button variant="success" @click="addTender" style="margin: 70px 0px 0px 600px">確認</b-button>
       </b-col>
     </b-row>
+        </b-overlay>
   </b-container>
 </template>
 
@@ -92,35 +98,70 @@ export default {
   name: 'AddTender',
   data () {
     return {
+      currentTender: {},
       procurementProperties: [
-        '工程類',
-        '財務類',
-        '勞務類'
+        { text: '工程類', value: 0 },
+        { text: '財務類', value: 1 },
+        { text: '勞務類', value: 2 }
       ],
       tenderMethods: [
-        '公開招標',
-        '選擇性招標',
-        '限制性招標'
-      ]
+        { text: '公開招標', value: 0 },
+        { text: '選擇性招標', value: 1 },
+        { text: '限制性招標', value: 2 }
+      ],
+      show: false
     }
   },
-  computed: {
-    ...mapState({
-      currentTender: state => state.tender.current
-    })
+  // computed: {
+  //   ...mapState({
+  //     currentTender: state => state.tender.current
+  //   })
+  // },
+  async mounted () {
+    const current = new Date()
+    const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`
+    this.currentTender = {
+      name: '',
+      procurementProperty: '', // 採購性質
+      tenderMethod: '公開招標', // 招標方式
+      publishingDate: today, // 公告日
+      budgetAmount: '', // 預算金額
+      biddingDeadline: '', // 截止投標
+      openingDate: '' // 公告日期
+    }
   },
   methods: {
     async addTender () {
-      // await ethContract.methods
-      //   .addTender(this.currentTender.name, this.currentTender.subjectProcurement)
-      //   .send(
-      //     {
-      //       from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
-      //     }
-      //   )
-      //   .then(function (receipt) {
-      //   })
-      this.$router.push({ name: 'Dashboard' })
+      const yes = confirm('確定要新增嗎？')
+      if (yes) {
+        this.show = true
+
+        await ethContract.methods
+          .addTender(
+            (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0],
+            this.currentTender.name,
+            this.currentTender.procurementProperty,
+            this.currentTender.tenderMethod,
+            this.currentTender.publishingDate,
+            this.currentTender.budgetAmount,
+            this.currentTender.biddingDeadline,
+            this.currentTender.openingDate
+          )
+          .send(
+            {
+              from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
+            }
+          )
+          .then(res => {
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        this.show = false
+
+        this.$router.push({ name: 'Dashboard' })
+      }
     }
   }
 }
