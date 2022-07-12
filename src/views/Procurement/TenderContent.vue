@@ -60,12 +60,14 @@
             animation="cylon"
             font-scale="4"
             style="margin: 20px 10px 0px 0px"
+            v-show="currentTime < new Date(currentTender.biddingDeadline)"
           />
           <b-button
             size="lg"
             variant="info"
             style="margin: 0px 0px 20px 10px"
             @click="modalShow = !modalShow"
+            v-show="currentTime < new Date(currentTender.biddingDeadline)"
           >去投標</b-button>
           <b-modal id="biddingModal" v-model="modalShow" hide-footer title="填寫投標資訊！！">
             <b-overlay
@@ -228,9 +230,9 @@
     </b-row>
     <b-row align-h="center" >
       <b-col>
-        <div v-if="Object.keys(this.bid).length !== 0">
+        <!-- <div v-if="Object.keys(this.bid).length !== 0">
           aaa
-        </div>
+        </div> -->
       </b-col>
     </b-row>
   </b-container>
@@ -258,7 +260,8 @@ export default {
       },
       show: false,
       modalShow: false,
-      bid: {}
+      bid: {},
+      currentTime: ''
     }
   },
   computed: {
@@ -267,7 +270,7 @@ export default {
     })
   },
   async mounted () {
-    console.log(Object.keys(this.bid).length === 0)
+    this.currentTime = Date.now()
     const result = await ethContract.methods
       .lookupBidder(
         this.currentTender.id,
