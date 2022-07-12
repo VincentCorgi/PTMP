@@ -63,9 +63,15 @@
             label="截止投標："
           >
             <b-form-datepicker
-              locale="zh"
-              v-model="currentTender.biddingDeadline"
+              style="float: left; width: 50%;"
+              v-model="biddingDeadlineDate"
             ></b-form-datepicker>
+            <b-form-timepicker
+              style="float: left; width: 50%;"
+              @context="onContextBiddingDeadline"
+            >
+            </b-form-timepicker>
+
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
@@ -75,9 +81,14 @@
             label="開標日期："
           >
             <b-form-datepicker
-              locale="zh"
-              v-model="currentTender.openingDate"
+              style="float: left; width: 50%;"
+              v-model="openingDateDate"
             ></b-form-datepicker>
+            <b-form-timepicker
+              style="float: left; width: 50%;"
+              @context="onContextOpeningDate"
+            >
+            </b-form-timepicker>
           </b-form-group>
         </div>
       </b-col>
@@ -93,7 +104,6 @@
 
 <script>
 import { ethContract } from '@/service/index.js'
-import { mapState } from 'vuex'
 export default {
   name: 'AddTender',
   data () {
@@ -109,17 +119,16 @@ export default {
         { text: '選擇性招標', value: 1 },
         { text: '限制性招標', value: 2 }
       ],
-      show: false
+      show: false,
+      biddingDeadlineDate: '',
+      biddingDeadlineTime: '',
+      openingDateDate: '',
+      openingDateTime: ''
     }
   },
-  // computed: {
-  //   ...mapState({
-  //     currentTender: state => state.tender.current
-  //   })
-  // },
   async mounted () {
     const current = new Date()
-    const today = `${current.getFullYear()}-${current.getMonth() + 1}-${current.getDate()}`
+    const today = `${current.getFullYear()}/${current.getMonth() + 1}/${current.getDate()}`
     this.currentTender = {
       name: '',
       procurementProperty: '', // 採購性質
@@ -135,7 +144,13 @@ export default {
       const yes = confirm('確定要新增嗎？')
       if (yes) {
         this.show = true
+        const bdl = new Date(this.biddingDeadlineDate)
+        bdl.setHours(bdl.getHours() + this.biddingDeadlineTime.hours - 8)
+        const od = new Date(this.openingDateDate)
+        od.setHours(od.getHours() + this.openingDateTime.hours - 8)
 
+        this.currentTender.biddingDeadline = `${bdl.getFullYear()}/${bdl.getMonth() + 1}/${bdl.getDate()} ${String(bdl.getHours()).padStart(2, '0')}:${String(bdl.getMinutes()).padStart(2, '0')}`
+        this.currentTender.openingDate = `${od.getFullYear()}/${od.getMonth() + 1}/${od.getDate()} ${String(od.getHours()).padStart(2, '0')}:${String(od.getMinutes()).padStart(2, '0')}`
         await ethContract.methods
           .addTender(
             this.currentTender.name,
@@ -146,11 +161,7 @@ export default {
             this.currentTender.biddingDeadline,
             this.currentTender.openingDate
           )
-          .send(
-            {
-              from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
-            }
-          )
+          .send({ from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0] })
           .then(res => {
             console.log(res)
           })
@@ -161,6 +172,12 @@ export default {
 
         this.$router.push({ name: 'Dashboard' })
       }
+    },
+    onContextBiddingDeadline (ctx) {
+      this.biddingDeadlineTime = ctx
+    },
+    onContextOpeningDate (ctx) {
+      this.openingDateTime = ctx
     }
   }
 }
