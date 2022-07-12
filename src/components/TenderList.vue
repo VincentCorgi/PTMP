@@ -32,6 +32,7 @@
               variant="primary"
               style="float: right; margin-left: 50px; border-radius: 5px;"
               size="lg"
+              v-show="selectedItem === '招標查詢'"
               @click="addTender"
             >新增招標</b-button>
           </b-input-group-append>
@@ -64,6 +65,16 @@
           >
             {{ row.value }}
           </router-link>
+        </template>
+        <template #cell(tenderMethod)="row">
+          <span v-show="row.value === '0'">公開招標</span>
+          <span v-show="row.value === '1'">選擇性招標</span>
+          <span v-show="row.value === '2'">限制性招標</span>
+        </template>
+        <template #cell(procurementProperty)="row">
+          <span v-show="row.value === '0'">工程類</span>
+          <span v-show="row.value === '1'">財務類</span>
+          <span v-show="row.value === '2'">勞務類</span>
         </template>
       </b-table>
       <b-pagination
@@ -186,6 +197,7 @@ export default {
   async mounted () {
     await this.lookupTenderList()
     this.show = false
+    console.log(this.tenderList)
   },
   methods: {
     ...mapActions('tender', ['lookupTenderList']),

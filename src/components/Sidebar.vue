@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -32,10 +32,10 @@ export default {
   },
   methods: {
     ...mapMutations(['setSelectedItem']),
-    chooseItem (item) {
-      // this.selectedItem = item
+    // ...mapActions('tender', ['lookupTenderList']),
+    async chooseItem (item) {
       this.setSelectedItem(item)
-      const aaa = this.selectedItem === '招標查詢' ? 0 : 1
+      // await this.lookupTenderList()
       this.$router.push({ name: 'Dashboard' })
     }
   }
