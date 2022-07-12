@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { ethContract } from '@/service/index.js'
+import { mapMutations } from 'vuex'
 export default {
   name: 'Login',
   data () {
@@ -18,12 +20,29 @@ export default {
   computed: {},
   async mounted () {},
   methods: {
+    ...mapMutations('firm', ['setCurrent', 'reset']),
     async signIn () {
       if (window.ethereum) {
         window.ethereum.enable().then((res) => {
-          alert(res[0])
+          // alert(res[0])
+          console.log(res[0])
         })
-        this.$router.push({ name: 'Dashboard' })
+        const manufacturer = await ethContract.methods
+          .manufacturers((await window.ethereum.request({ method: 'eth_requestAccounts' }))[0])
+          .call()
+          .then(function (res) {
+            return res
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        if (manufacturer.addr === '0x0000000000000000000000000000000000000000') {
+          this.reset()
+          this.$router.push({ name: 'Register' })
+        } else {
+          this.setCurrent(manufacturer)
+          this.$router.push({ name: 'Dashboard' })
+        }
       } else {
         alert('請安裝MetaMask錢包')
       }

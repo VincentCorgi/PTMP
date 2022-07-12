@@ -1,13 +1,14 @@
+import { ethContract } from '@/service/index.js'
 export default {
   namespaced: true,
   state: {
     current: {
       addr: '',
-      name: 'aaa',
-      contact: 'bbb',
-      contactNumber: 'ccc',
-      contactAddress: 'ddd',
-      email: 'aaa@gmail.com',
+      name: '',
+      contact: '',
+      contactNumber: '',
+      contactAddress: '',
+      email: '',
       tendersInfo: [
         {
           name: 'aaa',
@@ -65,13 +66,33 @@ export default {
         name: '',
         contact: '',
         contactNumber: '',
-        contactAddress: ''
+        contactAddress: '',
+        email: ''
       }
     }
   },
   actions: {
-    saveFirm ({ state }) {
-
+    async addFirm ({ state }) {
+      await ethContract.methods
+        .addManufacturer(
+          (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0],
+          state.current.name,
+          state.current.email,
+          state.current.contact,
+          state.current.contactNumber,
+          state.current.contactAddress
+        )
+        .send(
+          {
+            from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
+          }
+        )
+        .then(function (receipt) {
+          console.log(receipt)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   }
 }
