@@ -25,7 +25,7 @@ export default {
       if (window.ethereum) {
         window.ethereum.enable().then((res) => {
           // alert(res[0])
-          console.log(res[0])
+          // console.log(res[0])
         })
         const manufacturer = await ethContract.methods
           .manufacturers((await window.ethereum.request({ method: 'eth_requestAccounts' }))[0])

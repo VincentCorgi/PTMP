@@ -70,7 +70,6 @@ export default {
   watch: {
     currentTender: {
       handler (newVal, oldVal) {
-        console.log(!newVal.addr)
         if (newVal.name === '') {
           // this.setIsOwner(false)
           this.isOwner = false

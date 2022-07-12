@@ -197,7 +197,6 @@ export default {
   async mounted () {
     await this.lookupTenderList()
     this.show = false
-    console.log(this.tenderList)
   },
   methods: {
     ...mapActions('tender', ['lookupTenderList']),
