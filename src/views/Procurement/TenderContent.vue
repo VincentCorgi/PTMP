@@ -68,6 +68,11 @@
             v-b-modal.biddingModal
           >去投標</b-button>
           <b-modal id="biddingModal" title="填寫投標資訊！！">
+            <b-overlay
+              :show="show"
+              variant="light"
+              opacity="0.7"
+            >
             <template #default="{  }">
               <b-form-group
                 label-cols-sm="3"
@@ -122,6 +127,8 @@
                 確認
               </b-button>
             </template>
+        </b-overlay>
+
           </b-modal>
         </div>
       </b-col>
@@ -133,56 +140,73 @@
         <div class="tenderInfo">
           <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">標案資訊</div>
           <b-form-group
-            label-cols-sm="3"
-            label-align-sm="left"
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
             style="padding-left: 20px; margin-bottom: 12px"
             label="標案名稱："
           >
             <span style="float: left;">{{ currentTender.name }}</span>
           </b-form-group>
           <b-form-group
-            label-cols-sm="3"
-            label-align-sm="left"
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
             style="padding-left: 20px; margin-bottom: 12px"
             label="招標方式："
           >
-            <span style="float: left;">{{ currentTender.tenderMethod }}</span>
+            <span v-show="currentTender.tenderMethod === '0'" style="float: left;">公開招標</span>
+            <span v-show="currentTender.tenderMethod === '1'" style="float: left;">選擇性招標</span>
+            <span v-show="currentTender.tenderMethod === '2'" style="float: left;">限制性招標</span>
           </b-form-group>
           <b-form-group
-            label-cols-sm="3"
-            label-align-sm="left"
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
             style="padding-left: 20px; margin-bottom: 12px"
             label="採購性質："
           >
-            <span style="float: left;">{{ currentTender.procurementProperty }}</span>
-          </b-form-group>
+            <span v-show="currentTender.procurementProperty === '0'" style="float: left;">工程類</span>
+            <span v-show="currentTender.procurementProperty === '1'" style="float: left;">財務類</span>
+            <span v-show="currentTender.procurementProperty === '2'" style="float: left;">勞務類</span>  </b-form-group>
           <b-form-group
-            label-cols-sm="3"
-            label-align-sm="left"
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
             style="padding-left: 20px; margin-bottom: 12px"
             label="公告日："
           >
             <span style="float: left;">{{ currentTender.publishingDate }}</span>
           </b-form-group>
           <b-form-group
-            label-cols-sm="3"
-            label-align-sm="left"
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
             style="padding-left: 20px; margin-bottom: 12px"
             label="預算金額："
           >
             <span style="float: left;">{{ currentTender.budgetAmount }}</span>
           </b-form-group>
           <b-form-group
-            label-cols-sm="3"
-            label-align-sm="left"
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
             style="padding-left: 20px; margin-bottom: 12px"
             label="截止投標："
           >
             <span style="float: left;">{{ currentTender.biddingDeadline }}</span>
           </b-form-group>
           <b-form-group
-            label-cols-sm="3"
-            label-align-sm="left"
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
             style="padding-left: 20px; margin-bottom: 12px"
             label="開標日期："
           >
@@ -192,11 +216,15 @@
       </b-col>
       <b-col></b-col>
     </b-row>
+    <b-row align-h="center">
+
+    </b-row>
   </b-container>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import { ethContract } from '@/service/index.js'
 
 export default {
   name: 'TenderContent',
@@ -213,7 +241,8 @@ export default {
         price: '',
         exerciseDate: '',
         isSME: ''
-      }
+      },
+      show: false
     }
   },
   computed: {
@@ -222,9 +251,27 @@ export default {
     })
   },
   methods: {
+    // ...mapActions('tender', ['addTenderBidder']),
     async addBidder () {
+      this.show = true
       this.bidder.addr = (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
       this.bidder.exerciseDate = `${this.exerciseDateStart}~${this.exerciseDateEnd}`
+      await ethContract.methods
+        .addTenderBidder(
+          this.currentTender.id,
+          this.bidder.addr,
+          this.bidder.price,
+          this.bidder.exerciseDate,
+          this.bidder.isSME
+        )
+        .send({ from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0] })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      this.show = false
     }
   }
 }

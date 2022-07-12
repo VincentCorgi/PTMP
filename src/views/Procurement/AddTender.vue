@@ -138,7 +138,6 @@ export default {
 
         await ethContract.methods
           .addTender(
-            (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0],
             this.currentTender.name,
             this.currentTender.procurementProperty,
             this.currentTender.tenderMethod,

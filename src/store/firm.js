@@ -75,7 +75,6 @@ export default {
     async addFirm ({ state }) {
       await ethContract.methods
         .addManufacturer(
-          (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0],
           state.current.name,
           state.current.email,
           state.current.contact,
@@ -93,6 +92,18 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    async lookupFirm ({ commit }, addr) {
+      const firm = await ethContract.methods
+        .manufacturers(addr)
+        .call()
+        .then(function (res) {
+          return res
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      return firm
     }
   }
 }
