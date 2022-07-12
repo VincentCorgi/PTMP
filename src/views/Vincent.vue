@@ -1,15 +1,9 @@
 <template>
     <div>
-      <div class='drop-zone'>
-        <div v-for='item in listOne' :key='item.title' class='drag-el'>
-          {{ item.title }}
-        </div>
-      </div>
-      <div class='drop-zone'>
-        <div v-for='item in listTwo' :key='item.title' class='drag-el'>
-          {{ item.title }}
-        </div>
-      </div>
+      <b-form-datepicker v-model="date"></b-form-datepicker>
+      <b-form-timepicker @context="onContext"></b-form-timepicker>
+      <b-button @click="test">click</b-button>
+      {{dateString}}
     </div>
 </template>
 
@@ -18,57 +12,31 @@ export default {
   name: 'Vincent',
   data () {
     return {
-      items: [
-        {
-          id: 0,
-          title: 'Item A',
-          list: 1
-        },
-        {
-          id: 1,
-          title: 'Item B',
-          list: 1
-        },
-        {
-          id: 2,
-          title: 'Item C',
-          list: 2
-        }]
+      date: '',
+      time: '',
+      dateString: '',
+      context: ''
     }
   },
   methods: {
-    startDrag (evt, item) {
-      evt.dataTransfer.dropEffect = 'move'
-      evt.dataTransfer.effectAllowed = 'move'
-      evt.dataTransfer.setData('itemID', item.id)
+    test () {
+      const date = new Date()
+      const time = this.addHours()
+      console.log(time.getMinutes(), time.getHours())
     },
-    onDrop (evt, list) {
-      const itemID = evt.dataTransfer.getData('itemID')
-      const item = this.items.find(item => item.id === itemID)
-      item.list = list
-    }
-  },
-  computed: {
-    listOne () {
-      return this.items.filter(item => item.list === 1)
+    addHours () {
+      const date = new Date(this.date)
+      date.setHours(date.getHours() + this.context.hours - 8)
+
+      return date
     },
-    listTwo () {
-      return this.items.filter(item => item.list === 2)
+    onContext (ctx) {
+      this.context = ctx
     }
   }
 }
 </script>
 
 <style>
-  .drop-zone {
-    background-color: #eee;
-    margin-bottom: 10px;
-    padding: 10px;
-  }
 
-  .drag-el {
-    background-color: #fff;
-    margin-bottom: 10px;
-    padding: 5px;
-  }
 </style>
