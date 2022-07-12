@@ -328,9 +328,20 @@ export default {
       },
       show: false,
       modalShow: false,
-      bid: {},
+      bid: {
+        bidder: {
+          name: '',
+          contact: '',
+          contactAddress: '',
+          contactNumber: ''
+        },
+        price: '',
+        exerciseDate: '',
+        isSME: ''
+      },
       currentTime: '',
-      showBidderInfo: false
+      showBidderInfo: false,
+      hideBidderInfo: true
     }
   },
   computed: {
@@ -359,6 +370,7 @@ export default {
       this.bid.exerciseDate = Object.values(result)[2]
       this.bid.isSME = Object.values(result)[3]
       this.showBidderInfo = true
+      this.hideBidderInfo = false
     } else {
       console.log('you are not yet enjoying bidding!')
     }
