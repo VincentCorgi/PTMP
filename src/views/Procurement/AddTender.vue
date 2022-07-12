@@ -70,6 +70,7 @@
             <b-form-timepicker
             size="sm"
               style="float: left; width: 50%;"
+              v-model="biddingDeadlineTimeValue"
               @context="onContextBiddingDeadline"
             >
             </b-form-timepicker>
@@ -79,27 +80,29 @@
             label-cols-sm="4"
             label-cols-lg="6"
             content-cols-sm
-            content-cols-lg="4"
+            content-cols-lg="6"
             label="開標日期："
           >
             <b-form-datepicker
               size="sm"
-              style="float: left; width: 50%;"
+              style="float: left; width: 33%;"
               v-model="openingDateDate"
             ></b-form-datepicker>
             <b-form-timepicker
             size="sm"
-              style="float: left; width: 50%;"
+              style="float: left; width: 33%;"
+              v-model="openingDateTimeValue"
               @context="onContextOpeningDate"
             >
             </b-form-timepicker>
+            <b-button @click="syncOpeningDate">同截止投標時間</b-button>
           </b-form-group>
         </div>
       </b-col>
     </b-row>
     <b-row>
       <b-col>
-        <b-button variant="success" @click="addTender" style="margin: 70px 0px 0px 600px">確認</b-button>
+        <b-button variant="success" @click="addTender" style="margin: 70px 0px 0px 800px">確認</b-button>
       </b-col>
     </b-row>
         </b-overlay>
@@ -126,8 +129,10 @@ export default {
       show: false,
       biddingDeadlineDate: '',
       biddingDeadlineTime: '',
+      biddingDeadlineTimeValue: '',
       openingDateDate: '',
-      openingDateTime: ''
+      openingDateTime: '',
+      openingDateTimeValue: ''
     }
   },
   async mounted () {
@@ -185,6 +190,12 @@ export default {
     },
     onContextOpeningDate (ctx) {
       this.openingDateTime = ctx
+    },
+    syncOpeningDate () {
+      console.log()
+      this.openingDateDate = this.biddingDeadlineDate
+      this.openingDateTime = this.biddingDeadlineTime
+      this.openingDateTimeValue = this.biddingDeadlineTimeValue
     }
   }
 }
