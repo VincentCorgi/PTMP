@@ -200,19 +200,7 @@ export default {
   },
   methods: {
     ...mapActions('tender', ['lookupTenderList']),
-    pushTo (data) {
-      if (this.selectedItem === '決標查詢') {
-        let awardTender
-        let price = 0
-        for (let i = 0; i < data.bidders.length; i++) {
-          const element = data.bidders[i]
-          if (element.price > price) {
-            price = element.price
-            awardTender = element
-          }
-        }
-        data.awardTender = awardTender
-      }
+    async pushTo (data) {
       this.$store.commit('tender/setTender', data)
       this.selectedItem === '招標查詢'
         ? this.$router.push({ name: 'TenderContent' })
