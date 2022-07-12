@@ -1,32 +1,19 @@
+import { ethContract } from '@/service/index.js'
 export default {
   namespaced: true,
   state: {
-    current: {
-      tenderer: {
-        addr: '',
-        name: 'sdfasdf',
-        contactAddress: 'bbsdfasdfb',
-        contact: 'ccsdfasdfc',
-        contactNumber: 'ddfasdfasddd',
-        email: 'asfasd@gamil.com'
-      },
-      name: '「原住民族部落環境基本調查、部落溝通及國土功能分區劃設作業」委託專業服務勞務採購案', // 標案名稱
-      tenderMethod: '限制性招標', // 招標方式
-      procurementProperty: '勞務類', // 採購性質
-      publishingDate: '2022-7-08', // 公告日
-      budgetAmount: 4160000, // 預算金額
-      biddingDeadline: '2022-07-18', // 截止投標
-      openingDate: '2022-07-19', // 開標日期
-      bidders: [], // 投標資料
-      awardTender: {}, // 得標廠商
-      status: 0
-    },
+    current: {},
     list: [],
     isSave: true
   },
   getters: {
-    tenderList (state) {
-      const list = state.list
+    tenderList (state, getters, rootState) {
+      const today = Date.now()
+      const list = state.list.filter(item =>
+        rootState.selectedItem === '招標查詢'
+          ? new Date(item.openingDate) > today
+          : new Date(item.openingDate) < today
+      )
       return list
     }
   },
@@ -42,8 +29,92 @@ export default {
     }
   },
   actions: {
-    lookupTenderList ({ commit }) {
-
+    async getAmountTender () {
+      const amount = await ethContract.methods
+        .amountTender()
+        .call()
+        .then(res => {
+          return res
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      return amount
+    },
+    async lookupTenderList ({ rootState, commit, dispatch }) {
+      const currentTime = Date.now()
+      const list = []
+      const amount = await dispatch('getAmountTender')
+      for (let i = 0; i < amount; i++) {
+        const tender = await ethContract.methods
+          .tenders(i)
+          .call()
+          .then(res => {
+            return res
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        tender.tenderer = await dispatch('firm/lookupFirm', tender.addr, { root: true })
+        if (new Date(tender.openingDate) < currentTime) {
+          const biddersAddress = await ethContract.methods
+            .getBiddersAddress(tender.id)
+            .call()
+            .then(res => {
+              return res
+            })
+            .catch(err => {
+              console.log(err)
+            })
+          tender.bidders = []
+          for (let i = 0; i < biddersAddress.length; i++) {
+            const element = biddersAddress[i]
+            const bid = await ethContract.methods
+              .lookupBidder(tender.id, element)
+              .call()
+              .then(res => {
+                return res
+              })
+              .catch(err => {
+                console.log(err)
+              })
+            bid.bidder = await dispatch('firm/lookupFirm', Object.values(bid)[0], { root: true })
+            bid.price = Object.values(bid)[1]
+            bid.exerciseDate = Object.values(bid)[2]
+            bid.isSME = Object.values(bid)[3]
+            tender.bidders.push(bid)
+          }
+          let awardTender
+          let price = 0
+          for (let i = 0; i < tender.bidders.length; i++) {
+            const element = tender.bidders[i]
+            if (element.price > price) {
+              price = element.price
+              awardTender = element
+            }
+          }
+          tender.awardTender = awardTender
+          tender.awardAmount = awardTender.price
+        }
+        list.push(tender)
+      }
+      commit('setTenderList', list)
+    },
+    async addTenderBidder ({ commit }, { tenderId, bidderInfo }) {
+      await ethContract.methods
+        .addTenderBidder(
+          tenderId,
+          bidderInfo.price,
+          bidderInfo.exerciseDate,
+          bidderInfo.isSME
+        )
+        .send({ from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0] })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }
