@@ -13,44 +13,44 @@
             content-cols-lg="4"
             label="公司名稱："
           >
-            <span>{{currentTender.tenderer.name}}</span>
+            <span style="float: left;">{{currentTender.tenderer.name}}</span>
         </b-form-group>
-            <b-form-group
-            label-cols-sm="4"
-            label-cols-lg="8"
-            content-cols-sm
-            content-cols-lg="4"
-            label="公司地址："
-          >
-            <span>{{currentTender.tenderer.contactAddress}}</span>
-          </b-form-group>
-          <b-form-group
-            label-cols-sm="4"
-            label-cols-lg="8"
-            content-cols-sm
-            content-cols-lg="4"
-            label="聯絡人："
-          >
-            <span>{{currentTender.tenderer.contact}}</span>
-          </b-form-group>
-          <b-form-group
-            label-cols-sm="4"
-            label-cols-lg="8"
-            content-cols-sm
-            content-cols-lg="4"
-            label="聯絡電話："
-          >
-            <span>{{currentTender.tenderer.contactNumber}}</span>
-          </b-form-group>
-          <b-form-group
-            label-cols-sm="4"
-            label-cols-lg="8"
-            content-cols-sm
-            content-cols-lg="4"
-            label="電子郵件："
-          >
-            <span>{{currentTender.tenderer.email}}</span>
-          </b-form-group>
+        <b-form-group
+          label-cols-sm="4"
+          label-cols-lg="8"
+          content-cols-sm
+          content-cols-lg="4"
+          label="公司地址："
+        >
+          <span style="float: left;">{{currentTender.tenderer.contactAddress}}</span>
+        </b-form-group>
+        <b-form-group
+          label-cols-sm="4"
+          label-cols-lg="8"
+          content-cols-sm
+          content-cols-lg="4"
+          label="聯絡人："
+        >
+          <span style="float: left;">{{currentTender.tenderer.contact}}</span>
+        </b-form-group>
+        <b-form-group
+          label-cols-sm="4"
+          label-cols-lg="8"
+          content-cols-sm
+          content-cols-lg="4"
+          label="聯絡電話："
+        >
+          <span style="float: left;">{{currentTender.tenderer.contactNumber}}</span>
+        </b-form-group>
+        <b-form-group
+          label-cols-sm="4"
+          label-cols-lg="8"
+          content-cols-sm
+          content-cols-lg="4"
+          label="電子郵件："
+        >
+          <span style="float: left;">{{currentTender.tenderer.email}}</span>
+        </b-form-group>
       </div>
       </b-col>
       <b-col cols="3">
@@ -60,22 +60,27 @@
             animation="cylon"
             font-scale="4"
             style="margin: 20px 10px 0px 0px"
-            v-show="currentTime < new Date(currentTender.biddingDeadline)"
+            v-show="currentTime < new Date(currentTender.biddingDeadline) && !showBidderInfo"
           />
           <b-button
             size="lg"
             variant="info"
             style="margin: 0px 0px 20px 10px"
             @click="modalShow = !modalShow"
-            v-show="currentTime < new Date(currentTender.biddingDeadline)"
+            v-show="currentTime < new Date(currentTender.biddingDeadline) && !showBidderInfo"
           >去投標</b-button>
+          <b-button
+            size="lg"
+            variant="info"
+            style="margin: 0px 0px 20px 10px"
+            v-show="currentTime < new Date(currentTender.biddingDeadline) && showBidderInfo"
+          >修改投標資訊</b-button>
           <b-modal id="biddingModal" v-model="modalShow" hide-footer title="填寫投標資訊！！">
-            <b-overlay
+          <b-overlay
               :show="show"
               variant="light"
               opacity="0.7"
             >
-            <!-- <template #default="{  }"> -->
               <b-form-group
                 label-cols-sm="3"
                 label-align-sm="left"
@@ -120,8 +125,6 @@
                   v-model="bidder.isSME"
                 ></b-form-radio-group>
               </b-form-group>
-            <!-- </template> -->
-            <!-- <template #modal-footer="{ addBidder, cancel }"> -->
               <b-button
                 size="sm"
                 variant="success"
@@ -138,8 +141,7 @@
               >
                 取消
               </b-button>
-            <!-- </template> -->
-        </b-overlay>
+          </b-overlay>
 
           </b-modal>
         </div>
@@ -228,12 +230,78 @@
       </b-col>
       <b-col></b-col>
     </b-row>
+    <!-- ------------------------------------------------------------------------------------------ -->
     <b-row align-h="center" >
-      <b-col>
-        <!-- <div v-if="Object.keys(this.bid).length !== 0">
-          aaa
-        </div> -->
+      <b-col cols="3"></b-col>
+      <b-col cols="6">
+        <div v-show="showBidderInfo" class="bidderInfo">
+          <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">投標資訊</div>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="廠商名稱："
+          >
+            <span style="float: left;">{{bid.bidder.name}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="廠商聯絡人："
+          >
+            <span style="float: left;">{{bid.bidder.contact}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="廠商地址："
+          >
+            <span style="float: left;">{{bid.bidder.contactAddress}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="廠商電話："
+          >
+            <span style="float: left;">{{bid.bidder.contactNumber}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="投標金額："
+          >
+            <span style="float: left;">{{bid.price}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="履約日期："
+          >
+            <span style="float: left;">{{bid.exerciseDate}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="是否為中小企業："
+          >
+            <span style="float: left;">{{bid.isSME}}</span>
+          </b-form-group>
+        </div>
       </b-col>
+      <b-col cols="3"></b-col>
     </b-row>
   </b-container>
 </template>
@@ -261,7 +329,8 @@ export default {
       show: false,
       modalShow: false,
       bid: {},
-      currentTime: ''
+      currentTime: '',
+      showBidderInfo: false
     }
   },
   computed: {
@@ -289,10 +358,10 @@ export default {
       this.bid.price = Object.values(result)[1]
       this.bid.exerciseDate = Object.values(result)[2]
       this.bid.isSME = Object.values(result)[3]
+      this.showBidderInfo = true
     } else {
-      console.log('bbb')
+      console.log('you are not yet enjoying bidding!')
     }
-    console.log(this.bid)
   },
   methods: {
     ...mapActions('tender', ['addTenderBidder']),
@@ -315,6 +384,13 @@ export default {
 </script>
 
 <style scoped>
+/* .container{
+  top: 55px;
+  background-color: aqua;
+  overflow-y:scroll;
+  height: calc(100vh - 55px);
+  width: calc(100% - 200px);
+} */
 .superiorEntity{
   margin-top: 10px;
   background-color: rgb(190, 218, 247);
@@ -323,6 +399,11 @@ export default {
 .tenderInfo{
   margin-top: 20px;
   background-color: rgb(243, 229, 200);
+  border-radius: 25px;
+}
+.bidderInfo{
+  margin-top: 20px;
+  background-color: rgb(244, 195, 230);
   border-radius: 25px;
 }
 </style>
