@@ -58,7 +58,9 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="招標方式："
           >
-            <span style="float: left; margin-top: 5px;">{{ currentTender.tenderMethod }}</span>
+            <span style="float: left; margin-top: 5px;" v-show="currentTender.tenderMethod === '0'">公開招標</span>
+            <span style="float: left; margin-top: 5px;" v-show="currentTender.tenderMethod === '1'">選擇性招標</span>
+            <span style="float: left; margin-top: 5px;" v-show="currentTender.tenderMethod === '2'">限制性招標</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="3"
@@ -66,7 +68,9 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="採購性質："
           >
-            <span style="float: left; margin-top: 5px;">{{ currentTender.procurementProperty }}</span>
+            <span style="float: left; margin-top: 5px;" v-show="currentTender.procurementProperty === '0'">工程類</span>
+            <span style="float: left; margin-top: 5px;" v-show="currentTender.procurementProperty === '1'">財務類</span>
+            <span style="float: left; margin-top: 5px;" v-show="currentTender.procurementProperty === '2'">勞務類</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="3"
