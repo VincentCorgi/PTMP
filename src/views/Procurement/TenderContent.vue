@@ -317,7 +317,8 @@
             content-cols-lg="4"
             label="是否為中小企業："
           >
-            <span style="float: left;">{{bid.isSME}}</span>
+            <span style="float: left;" v-if="bid.isSME">是</span>
+            <span style="float: left;" v-else>否</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
