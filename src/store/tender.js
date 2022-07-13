@@ -86,10 +86,10 @@ export default {
               tender.bidders.push(bid)
             }
             let awardTender
-            let price = 0
+            let price = 1000000000000
             for (let i = 0; i < tender.bidders.length; i++) {
               const element = tender.bidders[i]
-              if (element.price > price) {
+              if (element.price < price) {
                 price = element.price
                 awardTender = element
               }
