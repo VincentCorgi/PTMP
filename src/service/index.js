@@ -165,7 +165,7 @@ import Web3 from 'web3'
 
 const web3 = new Web3(Web3.givenProvider || 'ws://http://192.168.12.220:8080')
 // 合約地址
-const contractAddress = '0xCdd60e642808AaBB9032d721810A364a1327Ad85'
+const contractAddress = '0x17958e96AEE6A9Aaa388C3663Bc61685357EA879'
 // 合約abi
 // 新增廠商 addManufacturer
 // 新增標案 addTender
@@ -176,7 +176,7 @@ const contractAddress = '0xCdd60e642808AaBB9032d721810A364a1327Ad85'
 // 廠商列表 manufacturers
 // 標案列表 tenders
 const contractABI = [
-  { // 新增廠商 addManufacturer
+  {
     inputs: [
       {
         internalType: 'string',
@@ -209,7 +209,7 @@ const contractABI = [
     stateMutability: 'nonpayable',
     type: 'function'
   },
-  { // 新增標案 addTender
+  {
     inputs: [
       {
         internalType: 'string',
@@ -252,7 +252,7 @@ const contractABI = [
     stateMutability: 'nonpayable',
     type: 'function'
   },
-  { // 新增投標 addTenderBidder
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -280,7 +280,7 @@ const contractABI = [
     stateMutability: 'nonpayable',
     type: 'function'
   },
-  { // 標案數量 amountTender
+  {
     inputs: [],
     name: 'amountTender',
     outputs: [
@@ -293,7 +293,7 @@ const contractABI = [
     stateMutability: 'view',
     type: 'function'
   },
-  { // 取得投標商地址 getBiddersAddress
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -312,7 +312,7 @@ const contractABI = [
     stateMutability: 'view',
     type: 'function'
   },
-  { // 投標查詢（單筆） lookupBidder
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -351,7 +351,7 @@ const contractABI = [
     stateMutability: 'view',
     type: 'function'
   },
-  { // 廠商列表 manufacturers
+  {
     inputs: [
       {
         internalType: 'address',
@@ -395,7 +395,7 @@ const contractABI = [
     stateMutability: 'view',
     type: 'function'
   },
-  { // 標案列表 tenders
+  {
     inputs: [
       {
         internalType: 'uint256',
