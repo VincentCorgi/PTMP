@@ -66,35 +66,39 @@ export default {
             .catch(err => {
               console.log(err)
             })
-          tender.bidders = []
-          for (let i = 0; i < biddersAddress.length; i++) {
-            const element = biddersAddress[i]
-            const bid = await ethContract.methods
-              .lookupBidder(tender.id, element)
-              .call()
-              .then(res => {
-                return res
-              })
-              .catch(err => {
-                console.log(err)
-              })
-            bid.bidder = await dispatch('firm/lookupFirm', Object.values(bid)[0], { root: true })
-            bid.price = Object.values(bid)[1]
-            bid.exerciseDate = Object.values(bid)[2]
-            bid.isSME = Object.values(bid)[3]
-            tender.bidders.push(bid)
-          }
-          let awardTender
-          let price = 0
-          for (let i = 0; i < tender.bidders.length; i++) {
-            const element = tender.bidders[i]
-            if (element.price > price) {
-              price = element.price
-              awardTender = element
+          if (biddersAddress.length !== 0) {
+            tender.bidders = []
+            for (let i = 0; i < biddersAddress.length; i++) {
+              const element = biddersAddress[i]
+              const bid = await ethContract.methods
+                .lookupBidder(tender.id, element)
+                .call()
+                .then(res => {
+                  return res
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+              bid.bidder = await dispatch('firm/lookupFirm', Object.values(bid)[0], { root: true })
+              bid.price = Object.values(bid)[1]
+              bid.exerciseDate = Object.values(bid)[2]
+              bid.isSME = Object.values(bid)[3]
+              tender.bidders.push(bid)
             }
+            let awardTender
+            let price = 0
+            for (let i = 0; i < tender.bidders.length; i++) {
+              const element = tender.bidders[i]
+              if (element.price > price) {
+                price = element.price
+                awardTender = element
+              }
+            }
+            tender.awardTender = awardTender
+            tender.awardAmount = awardTender.price
+          } else {
+            tender.awardAmount = '無'
           }
-          tender.awardTender = awardTender
-          tender.awardAmount = awardTender.price
         }
         list.push(tender)
       }
