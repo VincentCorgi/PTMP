@@ -111,7 +111,8 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="招標相關文件："
           >
-            <router-link :to="{}" style="float: left;margin-top: 5px;">招標相關文件下載</router-link>
+            <span style="float: left; margin-top: 5px;">無</span>
+            <!-- <router-link :to="{}" style="float: left;margin-top: 5px;">招標相關文件下載</router-link> -->
           </b-form-group>
         </div>
       </b-col>
@@ -157,7 +158,8 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="投標相關文件："
           >
-            <router-link :to="{}" style="float: left; margin-top: 5px;">投標相關文件下載</router-link>
+            <span style="float: left; margin-top: 5px;">無</span>
+            <!-- <router-link :to="{}" style="float: left; margin-top: 5px;">投標相關文件下載</router-link> -->
           </b-form-group>
         </div>
       </b-col>

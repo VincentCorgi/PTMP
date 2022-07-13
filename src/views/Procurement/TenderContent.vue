@@ -244,7 +244,8 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="招標相關文件："
           >
-            <router-link :to="{}" style="float: left;">招標相關文件下載</router-link>
+            <span style="float: left;">無</span>
+            <!-- <router-link :to="{}" styles="float: left;">招標相關文件下載</router-link> -->
           </b-form-group>
         </div>
       </b-col>
@@ -327,7 +328,8 @@
             content-cols-lg="4"
             label="投標相關文件："
           >
-            <router-link :to="{}" style="float: left;">投標相關文件下載</router-link>
+            <span style="float: left;">無</span>
+            <!-- <router-link :to="{}" style="float: left;">投標相關文件下載</router-link> -->
           </b-form-group>
         </div>
       </b-col>
