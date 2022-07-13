@@ -76,6 +76,12 @@
           <span v-show="row.value === '1'">財務類</span>
           <span v-show="row.value === '2'">勞務類</span>
         </template>
+        <template #cell(budgetAmount)="row">
+          {{ row.value.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
+        </template>
+        <template #cell(awardAmount)="row">
+          {{ row.value.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
+        </template>
       </b-table>
       <b-pagination
         v-model="currentPage"
@@ -92,7 +98,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 export default {
   data () {

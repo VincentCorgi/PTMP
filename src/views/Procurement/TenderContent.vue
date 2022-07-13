@@ -214,7 +214,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="預算金額："
           >
-            <span style="float: left;">{{ currentTender.budgetAmount }}</span>
+            <span style="float: left;">{{ currentTender.budgetAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
@@ -299,7 +299,7 @@
             content-cols-lg="4"
             label="投標金額："
           >
-            <span style="float: left;">{{bid.price}}</span>
+            <span style="float: left;">{{ bid.price.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"

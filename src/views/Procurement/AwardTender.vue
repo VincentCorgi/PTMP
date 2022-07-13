@@ -87,7 +87,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="預算金額："
           >
-            <span style="float: left; margin-top: 5px;">{{ currentTender.budgetAmount }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.budgetAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
@@ -132,7 +132,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="決標金額："
           >
-            <span style="float: left; margin-top: 5px;">{{ currentTender.awardTender.price }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.awardTender.price.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="5"
@@ -177,6 +177,9 @@
             </template>
             <template  #cell(name)="row">
               <span>{{ row.item.bidder.name }}</span>
+            </template>
+            <template  #cell(price)="row">
+              <span>{{ row.value.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</span>
             </template>
             <template #cell(isSME)="row">
              <span v-if="row.value === true">是</span>
