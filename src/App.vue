@@ -41,16 +41,16 @@ export default {
   z-index:1;
 }
 .main-content {
-  top: 55px;
+  top: 60px;
   background-color: rgb(255, 255, 255);
   height: 100%;
   width: calc(100vw - 200px);
   margin-left: 200px;
 }
 .open-content{
-  top: 55px;
+  top: 60px;
   overflow-y:scroll;
-  height: calc(100vh - 55px);
+  height: calc(100vh - 60px);
   width: calc(100% - 200px);
 }
 /* nav {
