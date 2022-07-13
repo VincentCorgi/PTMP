@@ -2,11 +2,11 @@
     <b-container fluid>
       <b-row >
         <b-col cols="3">
-          <b-button
+          <!-- <b-button
             style="border-radius: 10px; margin: 20px 0px 0px 0px; font-size: 20px; font-weight: bold;"
             variant="warning"
             size="lg"
-          >編輯</b-button>
+          >編輯</b-button> -->
         </b-col>
         <b-col cols="6" class="tenderInfo">
           <div style="margin: 50px; font-size: 20px; font-weight: bold">基本資料</div>

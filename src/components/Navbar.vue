@@ -25,6 +25,10 @@
     </div>
     <div v-show="$route.name === 'Management'" style="width: 100vw">
       <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
+                <b-button
+            style="float: right; border-radius: 10px; margin: 0px 0px 0px 0px; font-weight: bold;"
+            variant="warning"
+          >編輯</b-button>
     </div>
     <div v-show="$route.name === 'AddTender'" style="width: 100vw">
       <span style="color:white; font-size: 30px; float: center;">營造廠採購交易管理平台</span>
