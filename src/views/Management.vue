@@ -1,7 +1,14 @@
 <template>
     <b-container fluid>
       <b-row >
-        <b-col cols="6">
+        <b-col cols="3">
+          <b-button
+            style="border-radius: 10px; margin: 20px 0px 0px 0px; font-size: 20px; font-weight: bold;"
+            variant="warning"
+            size="lg"
+          >編輯</b-button>
+        </b-col>
+        <b-col cols="6" class="tenderInfo">
           <div style="margin: 50px; font-size: 20px; font-weight: bold">基本資料</div>
           <b-form-group
             label-cols-sm="4"
@@ -49,9 +56,8 @@
             <span>{{currentFirm.email}}</span>
           </b-form-group>
         </b-col>
-        <!-- <b-col cols="1"> -->
-          <div class="line"></div>
-        <!-- </b-col> -->
+        <b-col cols="3"></b-col>
+          <!-- <div class="line"></div>
         <b-col cols="5">
           <div style="margin: 50px; font-size: 20px; font-weight: bold">標案資訊</div>
           <div class="tenderInfo">
@@ -76,7 +82,7 @@
               </b-list-group-item>
             </b-list-group>
           </div>
-        </b-col>
+        </b-col> -->
       </b-row>
     </b-container>
 </template>
@@ -105,6 +111,7 @@ export default {
   background: #A6B0DE;;
 }
 .tenderInfo{
+  margin-top: 100px;
   border-radius: 25px;
   border-style: solid;
   border-width: 3px;
