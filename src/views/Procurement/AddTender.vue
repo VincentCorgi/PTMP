@@ -97,6 +97,20 @@
             </b-form-timepicker>
             <b-button @click="syncOpeningDate">同截止投標時間</b-button>
           </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="6"
+            content-cols-sm
+            content-cols-lg="6"
+            label="招標相關文件上傳："
+          >
+            <b-form-file
+              size="sm"
+              style="float: left; width: 66%;"
+              placeholder="請選擇或拖曳檔案至此..."
+            >
+            </b-form-file>
+          </b-form-group>
         </div>
       </b-col>
     </b-row>

@@ -82,7 +82,7 @@
               opacity="0.7"
             >
               <b-form-group
-                label-cols-sm="3"
+                label-cols-sm="4"
                 label-align-sm="left"
                 style="padding-left: 20px; margin-bottom: 12px"
                 label="投標金額："
@@ -94,7 +94,7 @@
                 ></b-form-input>
               </b-form-group>
               <b-form-group
-                label-cols-sm="3"
+                label-cols-sm="4"
                 label-align-sm="left"
                 style="padding-left: 20px; margin-bottom: 12px"
                 label="履約日期："
@@ -114,9 +114,9 @@
                 ></b-form-datepicker>
               </b-form-group>
               <b-form-group
-                label-cols-sm="3"
+                label-cols-sm="4"
                 label-align-sm="left"
-                style="padding-left: 20px; margin-bottom: 12px"
+                style="padding-left: 20px; margin-bottom: 12px;"
                 label="是否為中小企業："
               >
                 <b-form-radio-group
@@ -124,6 +124,17 @@
                   style="float: left; margin-top: 20px;"
                   v-model="bidder.isSME"
                 ></b-form-radio-group>
+              </b-form-group>
+              <b-form-group
+                label-cols-sm="4"
+                label-align-sm="left"
+                style="padding-left: 20px; margin-bottom: 12px"
+                label="投標相關文件："
+              >
+                <b-form-file
+                  size="sm"
+                  placeholder="請選擇或拖曳檔案至此..."
+                ></b-form-file>
               </b-form-group>
               <b-button
                 size="sm"
@@ -142,7 +153,6 @@
                 取消
               </b-button>
           </b-overlay>
-
           </b-modal>
         </div>
       </b-col>
@@ -226,6 +236,16 @@
           >
             <span style="float: left;">{{ currentTender.openingDate }}</span>
           </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            style="padding-left: 20px; margin-bottom: 12px"
+            label="招標相關文件："
+          >
+            <router-link :to="{}" style="float: left;">招標相關文件下載</router-link>
+          </b-form-group>
         </div>
       </b-col>
       <b-col></b-col>
@@ -298,6 +318,15 @@
             label="是否為中小企業："
           >
             <span style="float: left;">{{bid.isSME}}</span>
+          </b-form-group>
+          <b-form-group
+            label-cols-sm="4"
+            label-cols-lg="8"
+            content-cols-sm
+            content-cols-lg="4"
+            label="投標相關文件："
+          >
+            <router-link :to="{}" style="float: left;">投標相關文件下載</router-link>
           </b-form-group>
         </div>
       </b-col>
