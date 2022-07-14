@@ -1,3 +1,4 @@
+// 引用 npm install web3
 import Web3 from 'web3'
 // 創建web3實例
 const web3 = new Web3(Web3.givenProvider || 'ws://http://192.168.12.220:8080')
@@ -286,5 +287,5 @@ const contractABI = [
 ]
 // 連接合約
 const ethContract = new web3.eth.Contract(contractABI, contractAddress)
-
+// 導出ethContract
 export { ethContract }
