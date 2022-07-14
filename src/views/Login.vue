@@ -2,8 +2,8 @@
   <b-container fluid>
     <b-row class="vh-100" align-v="center">
       <b-col>
-        <div style="font-size: 50px; margin: 0px 10px 100px 0px">營造廠採購交易管理平台</div>
-        <b-button size="lg" variant="success" @click="signIn">連接MetaMask錢包並登入</b-button>
+        <div style="font-size: 50px; margin: 0px 500px 100px 0px;">營造廠採購交易管理平台</div>
+        <b-button size="lg" variant="success" @click="signIn" style="margin-right: 500px">連接MetaMask錢包並登入</b-button>
       </b-col>
     </b-row>
   </b-container>
