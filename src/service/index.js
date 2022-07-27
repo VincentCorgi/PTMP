@@ -3,10 +3,10 @@ import Web3 from 'web3'
 // 創建web3實例
 const web3 = new Web3(Web3.givenProvider || 'ws://http://192.168.12.220:8080')
 // 合約地址
-const contractAddress = '0x17958e96AEE6A9Aaa388C3663Bc61685357EA879'
+const contractAddress = '0x583899C76E479559Fa17c7E122941c4862B44e67'
 // 合約abi
 const contractABI = [
-  { // 新增廠商 addManufacturer
+  {
     inputs: [
       {
         internalType: 'string',
@@ -39,7 +39,7 @@ const contractABI = [
     stateMutability: 'nonpayable',
     type: 'function'
   },
-  { // 新增標案 addTender
+  {
     inputs: [
       {
         internalType: 'string',
@@ -82,7 +82,7 @@ const contractABI = [
     stateMutability: 'nonpayable',
     type: 'function'
   },
-  { // 新增投標 addTenderBidder
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -110,7 +110,20 @@ const contractABI = [
     stateMutability: 'nonpayable',
     type: 'function'
   },
-  { // 標案數量 amountTender
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'tenderId',
+        type: 'uint256'
+      }
+    ],
+    name: 'selectedAwardBidder',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function'
+  },
+  {
     inputs: [],
     name: 'amountTender',
     outputs: [
@@ -123,7 +136,7 @@ const contractABI = [
     stateMutability: 'view',
     type: 'function'
   },
-  { // 取得投標商地址 getBiddersAddress
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -142,7 +155,7 @@ const contractABI = [
     stateMutability: 'view',
     type: 'function'
   },
-  { // 投標查詢（單筆） lookupBidder
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -181,7 +194,7 @@ const contractABI = [
     stateMutability: 'view',
     type: 'function'
   },
-  { // 廠商列表 manufacturers
+  {
     inputs: [
       {
         internalType: 'address',
@@ -189,7 +202,7 @@ const contractABI = [
         type: 'address'
       }
     ],
-    name: 'manufacturers',
+    name: 'manufacturerList',
     outputs: [
       {
         internalType: 'address',
@@ -225,7 +238,7 @@ const contractABI = [
     stateMutability: 'view',
     type: 'function'
   },
-  { // 標案列表 tenders
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -233,7 +246,7 @@ const contractABI = [
         type: 'uint256'
       }
     ],
-    name: 'tenders',
+    name: 'tenderList',
     outputs: [
       {
         internalType: 'address',
@@ -279,6 +292,38 @@ const contractABI = [
         internalType: 'string',
         name: 'openingDate',
         type: 'string'
+      },
+      {
+        internalType: 'uint256',
+        name: 'state',
+        type: 'uint256'
+      },
+      {
+        components: [
+          {
+            internalType: 'address',
+            name: 'addr',
+            type: 'address'
+          },
+          {
+            internalType: 'uint256',
+            name: 'price',
+            type: 'uint256'
+          },
+          {
+            internalType: 'string',
+            name: 'exerciseDate',
+            type: 'string'
+          },
+          {
+            internalType: 'bool',
+            name: 'isSME',
+            type: 'bool'
+          }
+        ],
+        internalType: 'struct Simple.Bidder',
+        name: 'awardBidder',
+        type: 'tuple'
       }
     ],
     stateMutability: 'view',
