@@ -29,7 +29,7 @@ export default {
           // console.log(res[0])
         })
         const manufacturer = await ethContract.methods
-          .manufacturers((await window.ethereum.request({ method: 'eth_requestAccounts' }))[0])
+          .manufacturerList((await window.ethereum.request({ method: 'eth_requestAccounts' }))[0])
           .call()
           .then(function (res) {
             return res
