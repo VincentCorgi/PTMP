@@ -9,11 +9,18 @@ export default {
   getters: {
     tenderList (state, getters, rootState) {
       const today = Date.now()
-      const list = state.list.filter(item =>
-        rootState.selectedItem === '招標查詢'
-          ? new Date(item.openingDate) > today
-          : new Date(item.openingDate) < today
-      )
+      let list
+      if (rootState.selectedItem === '招標查詢') {
+        list = state.list.filter(item => item.state === '0')
+      } else if (rootState.selectedItem === '決標查詢') {
+        list = state.list.filter(item => item.state === '1')
+      }
+      // console.log(aaa)
+      // const list = state.list.filter(item =>
+      //   rootState.selectedItem === '招標查詢'
+      //     ? new Date(item.openingDate) > today
+      //     : new Date(item.openingDate) < today
+      // )
       return list
     }
   },
@@ -26,6 +33,7 @@ export default {
     },
     setTenderList (state, list) {
       state.list = list
+      console.log(state.list)
     }
   },
   actions: {
@@ -42,12 +50,11 @@ export default {
       return amount
     },
     async lookupTenderList ({ rootState, commit, dispatch }) {
-      const currentTime = Date.now()
       const list = []
       const amount = await dispatch('getAmountTender')
       for (let i = 0; i < amount; i++) {
         const tender = await ethContract.methods
-          .tenders(i)
+          .tenderList(i)
           .call()
           .then(res => {
             return res
@@ -56,7 +63,7 @@ export default {
             console.log(err)
           })
         tender.tenderer = await dispatch('firm/lookupFirm', tender.addr, { root: true })
-        if (new Date(tender.openingDate) < currentTime) {
+        if (tender.state === '1') {
           const biddersAddress = await ethContract.methods
             .getBiddersAddress(tender.id)
             .call()
@@ -85,23 +92,23 @@ export default {
               bid.isSME = Object.values(bid)[3]
               tender.bidders.push(bid)
             }
-            let awardTender
-            let price = 1000000000000
             for (let i = 0; i < tender.bidders.length; i++) {
               const element = tender.bidders[i]
-              if (element.price < price) {
-                price = element.price
-                awardTender = element
+              if (tender.awardBidder[0] === element.bidder.addr) {
+                tender.awardBidder = element
               }
             }
-            tender.awardTender = awardTender
-            tender.awardAmount = awardTender.price
-          } else {
-            tender.awardAmount = '無'
           }
+          // tender.awardBidder.addr = tender.awardBidder[0]
+          // tender.awardBidder.price = tender.awardBidder[1]
+          // tender.awardBidder.exerciseDate = tender.awardBidder[2]
+          // tender.awardBidder.isSME = tender.awardBidder[3]
+
+          tender.awardAmount = tender.awardBidder.price
         }
         list.push(tender)
       }
+      console.log(list)
       commit('setTenderList', list)
     },
     async addTenderBidder ({ commit }, { tenderId, bidderInfo }) {
