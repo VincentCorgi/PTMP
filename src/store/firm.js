@@ -95,7 +95,7 @@ export default {
     },
     async lookupFirm ({ commit }, addr) {
       const firm = await ethContract.methods
-        .manufacturers(addr)
+        .manufacturerList(addr)
         .call()
         .then(function (res) {
           return res
