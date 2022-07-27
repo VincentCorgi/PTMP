@@ -48,10 +48,10 @@
             label-cols-lg="6"
             content-cols-sm
             content-cols-lg="4"
-            label="預算金額："
+            label="預算金額(元)："
           >
             <b-form-input
-            type="number"
+              type="number"
               v-model="currentTender.budgetAmount"
             ></b-form-input>
           </b-form-group>

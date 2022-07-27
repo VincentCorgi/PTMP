@@ -142,7 +142,7 @@ export default {
         },
         {
           key: 'budgetAmount',
-          label: '預算金額',
+          label: '預算金額(元)',
           sortable: true
         }
       ],
@@ -180,7 +180,7 @@ export default {
         },
         {
           key: 'awardAmount',
-          label: '決標金額',
+          label: '決標金額(元)',
           sortable: true
         }
       ],
@@ -201,14 +201,29 @@ export default {
     }
   },
   async mounted () {
+    const currentTime = Date.now()
     await this.lookupTenderList()
+    // console.log(this.tenderList)
     this.show = false
+    for (let i = 0; i < this.tenderList.length; i++) {
+      const element = this.tenderList[i]
+      console.log(element.openingDate)
+      if (element.state === '0') {
+        if (new Date(element.openingDate) < currentTime) {
+          const yes = confirm(`${element.name}的開標時間已到請進行開標`)
+          if (yes) {
+            this.$store.commit('tender/setTender', element)
+            this.$router.push({ name: 'TenderContent' })
+          }
+        }
+      }
+    }
   },
   methods: {
     ...mapActions('tender', ['lookupTenderList']),
     async pushTo (data) {
       this.$store.commit('tender/setTender', data)
-      this.selectedItem === '招標查詢'
+      data.state === '0'
         ? this.$router.push({ name: 'TenderContent' })
         : this.$router.push({ name: 'AwardTender' })
     },

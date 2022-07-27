@@ -87,7 +87,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="預算金額："
           >
-            <span style="float: left; margin-top: 5px;">{{ currentTender.budgetAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.budgetAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}元</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
@@ -125,7 +125,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="得標廠商："
           >
-            <span style="float: left; margin-top: 5px;">{{ currentTender.awardTender.bidder.name }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.awardBidder.bidder.name }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="5"
@@ -133,7 +133,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="決標金額："
           >
-            <span style="float: left; margin-top: 5px;">{{ currentTender.awardTender.price.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.awardBidder.price.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}元</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="5"
@@ -141,7 +141,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="履約起迄日期："
           >
-            <span style="float: left; margin-top: 5px;">{{ currentTender.awardTender.exerciseDate }}</span>
+            <span style="float: left; margin-top: 5px;">{{ currentTender.awardBidder.exerciseDate }}</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="5"
@@ -149,7 +149,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="是否為中小企業："
           >
-            <span style="float: left; margin-top: 5px;" v-if="currentTender.awardTender.isSME === true">是</span>
+            <span style="float: left; margin-top: 5px;" v-if="currentTender.awardBidder.isSME === true">是</span>
             <span style="float: left; margin-top: 5px;" v-else>否</span>
           </b-form-group>
           <b-form-group
@@ -216,7 +216,7 @@ export default {
         },
         {
           key: 'price',
-          label: '投標金額',
+          label: '投標金額（元）',
           sortable: true
         },
         {
@@ -240,6 +240,9 @@ export default {
     ...mapState({
       currentTender: state => state.tender.current
     })
+  },
+  mounted () {
+    console.log(this.currentTender.awardBidder)
   }
 }
 </script>

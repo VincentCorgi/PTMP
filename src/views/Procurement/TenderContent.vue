@@ -60,14 +60,14 @@
             animation="cylon"
             font-scale="4"
             style="margin: 20px 10px 0px 0px"
-            v-show="currentTime < new Date(currentTender.biddingDeadline) && !showBidderInfo"
+            v-show="currentTime < new Date(currentTender.biddingDeadline) && !showBidderInfo && currentAddress !== currentTender.addr"
           />
           <b-button
             size="lg"
             variant="info"
             style="margin: 0px 0px 20px 10px"
             @click="modalShow = !modalShow"
-            v-show="currentTime < new Date(currentTender.biddingDeadline) && !showBidderInfo"
+            v-show="currentTime < new Date(currentTender.biddingDeadline) && !showBidderInfo && currentAddress !== currentTender.addr"
           >去投標</b-button>
           <b-button
             size="lg"
@@ -75,6 +75,13 @@
             style="margin: 0px 0px 20px 10px"
             v-show="currentTime < new Date(currentTender.biddingDeadline) && showBidderInfo"
           >修改投標資訊</b-button>
+          <b-button
+            size="lg"
+            variant="info"
+            style="margin: 0px 0px 20px 10px"
+            @click="selectedAward()"
+            v-show="currentTime > new Date(currentTender.biddingDeadline) && currentAddress !== currentTender.addr"
+          >進行決標</b-button>
           <b-modal id="biddingModal" v-model="modalShow" hide-footer title="填寫投標資訊！！">
           <b-overlay
               :show="show"
@@ -85,7 +92,7 @@
                 label-cols-sm="4"
                 label-align-sm="left"
                 style="padding-left: 20px; margin-bottom: 12px"
-                label="投標金額："
+                label="投標金額(元)："
               >
                 <b-form-input
                   type="number"
@@ -214,7 +221,7 @@
             style="padding-left: 20px; margin-bottom: 12px"
             label="預算金額："
           >
-            <span style="float: left;">{{ currentTender.budgetAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</span>
+            <span style="float: left;">{{ currentTender.budgetAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}元</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
@@ -300,7 +307,7 @@
             content-cols-lg="4"
             label="投標金額："
           >
-            <span style="float: left;">{{ bid.price.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}</span>
+            <span style="float: left;">{{ bid.price.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}元</span>
           </b-form-group>
           <b-form-group
             label-cols-sm="4"
@@ -329,7 +336,6 @@
             label="投標相關文件："
           >
             <span style="float: left;">無</span>
-            <!-- <router-link :to="{}" style="float: left;">投標相關文件下載</router-link> -->
           </b-form-group>
         </div>
       </b-col>
@@ -339,7 +345,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 import { ethContract } from '@/service/index.js'
 
 export default {
@@ -373,15 +379,20 @@ export default {
       },
       currentTime: '',
       showBidderInfo: false,
-      hideBidderInfo: true
+      hideBidderInfo: true,
+      currentAddress: ''
     }
   },
   computed: {
     ...mapState({
-      currentTender: state => state.tender.current
+      currentTender: state => state.tender.current,
+      selectedItem: state => state.selectedItem
     })
   },
   async mounted () {
+    this.currentAddress = (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0]
+    console.log(this.currentAddress)
+    console.log(this.currentTender.addr)
     this.currentTime = Date.now()
     const result = await ethContract.methods
       .lookupBidder(
@@ -408,6 +419,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setSelectedItem']),
     ...mapActions('tender', ['addTenderBidder']),
     ...mapActions('firm', ['lookupFirm']),
     cancel () {
@@ -422,6 +434,20 @@ export default {
       })
       this.show = false
       this.modalShow = false
+    },
+    async selectedAward () {
+      await ethContract.methods
+        .selectedAwardBidder(this.currentTender.id)
+        .send({ from: (await window.ethereum.request({ method: 'eth_requestAccounts' }))[0] })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      this.selectedItem = '決標查詢'
+      this.setSelectedItem(this.selectedItem)
+      this.$router.push({ name: 'Dashboard' })
     }
   }
 }
